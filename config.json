@@ -4,7 +4,7 @@
     "site_description": "A minimal blog about things that matter.",
     "author": "Your Name",
     "footer_text": "Built with Tailoza",
-    "theme": "dark",
+    "theme": "light",
     "posts_per_page": 20,
     "timezone": "+0000",
     "post_url_prefix": "/",

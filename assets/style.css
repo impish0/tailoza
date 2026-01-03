@@ -318,8 +318,8 @@ article pre {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: oklch(0.21 0.006 285.885);
-    border-bottom: 1px solid oklch(1 0 0 / 10%);
+    background-color: oklch(0.141 0.005 285.823);
+    border-bottom: none;
     padding: 0.5rem 1rem;
     font-size: 0.75rem;
     color: oklch(0.705 0.015 286.067);
@@ -452,6 +452,111 @@ pre[class*="language-"] {
 
 .token.italic {
     font-style: italic;
+}
+
+/* Light mode code blocks */
+:root:not([data-theme="dark"]) article pre {
+    background-color: oklch(0.97 0.001 286.375) !important;
+    border: 1px solid oklch(0.92 0.004 286.32);
+}
+
+:root:not([data-theme="dark"]) .code-block-wrapper {
+    border: 1px solid oklch(0.92 0.004 286.32);
+}
+
+:root:not([data-theme="dark"]) .code-block-wrapper pre {
+    background-color: oklch(0.97 0.001 286.375) !important;
+}
+
+:root:not([data-theme="dark"]) .code-block-header {
+    background-color: oklch(0.97 0.001 286.375);
+    border-bottom: none;
+    color: oklch(0.45 0.016 285.938);
+}
+
+:root:not([data-theme="dark"]) .copy-button {
+    border: 1px solid oklch(0.92 0.004 286.32);
+    color: oklch(0.45 0.016 285.938);
+}
+
+:root:not([data-theme="dark"]) .copy-button:hover {
+    background: oklch(0.92 0.004 286.32);
+    color: oklch(0.21 0.006 285.885);
+}
+
+:root:not([data-theme="dark"]) article pre code {
+    color: oklch(0.25 0.005 285.823) !important;
+}
+
+:root:not([data-theme="dark"]) code[class*="language-"],
+:root:not([data-theme="dark"]) pre[class*="language-"] {
+    color: oklch(0.25 0.005 285.823) !important;
+    background: oklch(0.97 0.001 286.375) !important;
+}
+
+:root:not([data-theme="dark"]) pre[class*="language-"] {
+    background: oklch(0.97 0.001 286.375) !important;
+}
+
+:root:not([data-theme="dark"]) :not(pre) > code[class*="language-"],
+:root:not([data-theme="dark"]) pre[class*="language-"] {
+    background: oklch(0.97 0.001 286.375) !important;
+}
+
+/* Light mode token colors */
+:root:not([data-theme="dark"]) .token.comment,
+:root:not([data-theme="dark"]) .token.prolog,
+:root:not([data-theme="dark"]) .token.doctype,
+:root:not([data-theme="dark"]) .token.cdata {
+    color: #6b7280;
+}
+
+:root:not([data-theme="dark"]) .token.punctuation {
+    color: #4b5563;
+}
+
+:root:not([data-theme="dark"]) .token.property,
+:root:not([data-theme="dark"]) .token.tag,
+:root:not([data-theme="dark"]) .token.boolean,
+:root:not([data-theme="dark"]) .token.number,
+:root:not([data-theme="dark"]) .token.constant,
+:root:not([data-theme="dark"]) .token.symbol,
+:root:not([data-theme="dark"]) .token.deleted {
+    color: #be185d;
+}
+
+:root:not([data-theme="dark"]) .token.selector,
+:root:not([data-theme="dark"]) .token.attr-name,
+:root:not([data-theme="dark"]) .token.string,
+:root:not([data-theme="dark"]) .token.char,
+:root:not([data-theme="dark"]) .token.builtin,
+:root:not([data-theme="dark"]) .token.inserted {
+    color: #166534;
+}
+
+:root:not([data-theme="dark"]) .token.operator,
+:root:not([data-theme="dark"]) .token.entity,
+:root:not([data-theme="dark"]) .token.url,
+:root:not([data-theme="dark"]) .language-css .token.string,
+:root:not([data-theme="dark"]) .style .token.string {
+    color: #4b5563;
+}
+
+:root:not([data-theme="dark"]) .token.atrule,
+:root:not([data-theme="dark"]) .token.attr-value,
+:root:not([data-theme="dark"]) .token.keyword {
+    color: #1d4ed8;
+}
+
+:root:not([data-theme="dark"]) .token.function,
+:root:not([data-theme="dark"]) .token.class-name {
+    color: #b45309;
+}
+
+:root:not([data-theme="dark"]) .token.regex,
+:root:not([data-theme="dark"]) .token.important,
+:root:not([data-theme="dark"]) .token.variable {
+    color: #be185d;
 }
 
 /* Tables */
