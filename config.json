@@ -1,0 +1,12 @@
+{
+    "site_title": "My Blog",
+    "site_url": "https://example.com",
+    "site_description": "A minimal blog about things that matter.",
+    "author": "Your Name",
+    "footer_text": "Built with Tailoza",
+    "theme": "dark",
+    "posts_per_page": 20,
+    "timezone": "+0000",
+    "post_url_prefix": "/",
+    "rss_full_content": true
+}
