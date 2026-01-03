@@ -28,6 +28,7 @@
     --link-color: var(--primary);
     --border-color: var(--border);
     --code-bg: var(--muted);
+    --code-block-bg: oklch(0.97 0.001 286.375);
     --code-text: var(--foreground);
     --blockquote-color: var(--muted-foreground);
     --table-header-bg: var(--muted);
@@ -63,6 +64,7 @@
     --link-color: var(--primary);
     --border-color: var(--border);
     --code-bg: var(--muted);
+    --code-block-bg: oklch(0.141 0.005 285.823);
     --code-text: var(--foreground);
     --blockquote-color: var(--muted-foreground);
     --table-header-bg: var(--muted);
@@ -290,39 +292,44 @@ article code {
 }
 
 article pre {
-    background-color: oklch(0.141 0.005 285.823);
-    border: 1px solid oklch(1 0 0 / 10%);
+    background-color: var(--card);
+    border: 1px solid var(--border);
     padding: 1rem;
     border-radius: var(--radius);
     overflow-x: auto;
-    margin-bottom: 1.5rem;
+    margin: 1.5rem 0;
     position: relative;
+    box-shadow: 0 1px 3px 0 oklch(0 0 0 / 0.1), 0 1px 2px -1px oklch(0 0 0 / 0.1);
 }
 
-/* Code block with header */
+/* Code block with header - match TOC card look */
 .code-block-wrapper {
     position: relative;
-    margin-bottom: 1.5rem;
+    margin: 2rem 0;
     border-radius: var(--radius);
     overflow: hidden;
-    border: 1px solid oklch(1 0 0 / 10%);
+    background-color: var(--card);
+    border: 1px solid var(--border);
+    box-shadow: 0 1px 3px 0 oklch(0 0 0 / 0.1), 0 1px 2px -1px oklch(0 0 0 / 0.1);
 }
 
 .code-block-wrapper pre {
     margin: 0;
     border: none;
     border-radius: 0;
+    background: transparent;
+    box-shadow: none;
 }
 
 .code-block-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: oklch(0.141 0.005 285.823);
-    border-bottom: none;
-    padding: 0.5rem 1rem;
+    background-color: var(--card);
+    border-bottom: 1px solid var(--border);
+    padding: 0.4rem 1rem;
     font-size: 0.75rem;
-    color: oklch(0.705 0.015 286.067);
+    color: var(--muted-foreground);
     font-family: 'Inter', sans-serif;
 }
 
@@ -367,22 +374,22 @@ article pre code {
     color: #e2e8f0;
 }
 
-/* Override Prism.js default light theme for dark code blocks */
+/* Prism.js code block base styling */
 code[class*="language-"],
 pre[class*="language-"] {
     color: #e2e8f0 !important;
-    background: none !important;
+    background: transparent !important;
     text-shadow: none !important;
     font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', 'Monaco', 'Andale Mono', 'Ubuntu Mono', monospace;
 }
 
 pre[class*="language-"] {
-    background: oklch(0.141 0.005 285.823) !important;
+    background: transparent !important;
 }
 
 :not(pre) > code[class*="language-"],
 pre[class*="language-"] {
-    background: oklch(0.141 0.005 285.823) !important;
+    background: transparent !important;
 }
 
 .token.comment,
@@ -455,33 +462,16 @@ pre[class*="language-"] {
 }
 
 /* Light mode code blocks */
-:root:not([data-theme="dark"]) article pre {
-    background-color: oklch(0.97 0.001 286.375) !important;
-    border: 1px solid oklch(0.92 0.004 286.32);
-}
 
-:root:not([data-theme="dark"]) .code-block-wrapper {
-    border: 1px solid oklch(0.92 0.004 286.32);
-}
-
-:root:not([data-theme="dark"]) .code-block-wrapper pre {
-    background-color: oklch(0.97 0.001 286.375) !important;
-}
-
-:root:not([data-theme="dark"]) .code-block-header {
-    background-color: oklch(0.97 0.001 286.375);
-    border-bottom: none;
-    color: oklch(0.45 0.016 285.938);
-}
-
+/* Light mode code blocks */
 :root:not([data-theme="dark"]) .copy-button {
-    border: 1px solid oklch(0.92 0.004 286.32);
-    color: oklch(0.45 0.016 285.938);
+    border: 1px solid var(--border);
+    color: var(--muted-foreground);
 }
 
 :root:not([data-theme="dark"]) .copy-button:hover {
-    background: oklch(0.92 0.004 286.32);
-    color: oklch(0.21 0.006 285.885);
+    background: var(--border);
+    color: var(--foreground);
 }
 
 :root:not([data-theme="dark"]) article pre code {
@@ -491,16 +481,6 @@ pre[class*="language-"] {
 :root:not([data-theme="dark"]) code[class*="language-"],
 :root:not([data-theme="dark"]) pre[class*="language-"] {
     color: oklch(0.25 0.005 285.823) !important;
-    background: oklch(0.97 0.001 286.375) !important;
-}
-
-:root:not([data-theme="dark"]) pre[class*="language-"] {
-    background: oklch(0.97 0.001 286.375) !important;
-}
-
-:root:not([data-theme="dark"]) :not(pre) > code[class*="language-"],
-:root:not([data-theme="dark"]) pre[class*="language-"] {
-    background: oklch(0.97 0.001 286.375) !important;
 }
 
 /* Light mode token colors */

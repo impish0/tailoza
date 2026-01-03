@@ -7,6 +7,8 @@ import threading
 import subprocess
 import http.server
 import socketserver
+import socket
+import signal
 from pathlib import Path
 
 # Configuration
@@ -206,21 +208,52 @@ def serve():
     
     # Start HTTP server
     Handler = CustomHTTPRequestHandler
-    
+
+    # Create a server subclass that sets socket reuse options before binding
+    class ReusableTCPServer(socketserver.TCPServer):
+        allow_reuse_address = True
+        def server_bind(self):
+            # Set socket options before bind so the OS allows quick reuse
+            self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+            try:
+                # SO_REUSEPORT may be available on some systems and allows multiple
+                # sockets to bind to the same port (useful during restarts)
+                self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)
+            except Exception:
+                pass
+            return super().server_bind()
+
     try:
-        with socketserver.TCPServer(("", PORT), Handler) as httpd:
-            # Allow port reuse to avoid "Address already in use" errors
-            httpd.allow_reuse_address = True
-            
+        with ReusableTCPServer(("", PORT), Handler) as httpd:
             print(f"\n🚀 Server running at http://localhost:{PORT}")
             print("   Press Ctrl+C to stop\n")
-            
+
+            # Graceful shutdown on SIGINT/SIGTERM
+            def _shutdown(signum, frame):
+                print("\n\n🛑 Signal received, shutting down server...")
+                watcher.stop()
+                # Call shutdown from a separate thread to avoid deadlocks in signal handler
+                threading.Thread(target=httpd.shutdown, daemon=True).start()
+
+            signal.signal(signal.SIGINT, _shutdown)
+            signal.signal(signal.SIGTERM, _shutdown)
+
             try:
                 httpd.serve_forever()
-            except KeyboardInterrupt:
+            finally:
+                # Ensure we always stop watcher and close the server socket
                 print("\n\n🛑 Shutting down server...")
                 watcher.stop()
-                httpd.shutdown()
+                try:
+                    httpd.shutdown()
+                except Exception:
+                    pass
+                try:
+                    httpd.server_close()
+                except Exception:
+                    pass
+                # Give watcher thread a moment to stop
+                watcher_thread.join(timeout=2)
     
     except OSError as e:
         if e.errno == 48:  # Address already in use
