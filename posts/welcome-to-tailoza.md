@@ -1,6 +1,6 @@
 ---
 title: Welcome to Tailoza
-date: 2025-01-01
+date: 2025-01-03
 description: Your first post with Tailoza - a minimal static site generator that just works.
 author: Your Name
 categories: Getting Started
@@ -57,6 +57,12 @@ Task lists:
 
 > "The best time to plant a tree was 20 years ago. The second best time is now."
 
+The markdown:
+
+``` md
+> "The best time to plant a tree was 20 years ago. The second best time is now."
+```
+
 ### Tables
 
 | Feature | Supported |
@@ -67,12 +73,31 @@ Task lists:
 | Search | Yes |
 | Dark Mode | Yes |
 
+The markdown:
+
+``` md
+| Feature | Supported |
+|---------|-----------|
+| Markdown | Yes |
+| Categories | Yes |
+| RSS Feed | Yes |
+| Search | Yes |
+| Dark Mode | Yes |
+```
+
 ### Images
 
 Drop your images in the `images/` folder and reference them:
 
 ![Desert landscape](neom-0SUho_B0nus-unsplash.jpg)
-*Photo by [NEOM](https://unsplash.com/@neaborly) on [Unsplash](https://unsplash.com)*
+*Photo by [NEOM](https://unsplash.com/@neom) on [Unsplash](https://unsplash.com)*
+
+The markdown:
+
+``` md
+![Desert landscape](neom-0SUho_B0nus-unsplash.jpg)
+*Photo by [NEOM](https://unsplash.com/@neom) on [Unsplash](https://unsplash.com)*
+```
 
 ### Links
 
