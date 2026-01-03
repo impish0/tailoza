@@ -16,6 +16,7 @@ PORT = 8000
 WATCH_DIRS = ['posts', 'assets', 'images']
 WATCH_FILES = ['config.json', 'build.py', 'parser.py', 'templates.py', 'rss_generator.py', 'sitemap_generator.py']
 CHECK_INTERVAL = 1  # seconds
+ROOT_DIR = None  # Will be set to the root directory before changing to output
 
 class FileWatcher:
     """Watch for file changes and trigger rebuilds"""
@@ -29,15 +30,17 @@ class FileWatcher:
         """Scan all watched files and directories"""
         timestamps = {}
         
-        # Watch specific files
+        # Watch specific files (from ROOT_DIR)
         for file_path in WATCH_FILES:
-            if os.path.exists(file_path):
-                timestamps[file_path] = os.path.getmtime(file_path)
+            full_path = os.path.join(ROOT_DIR, file_path)
+            if os.path.exists(full_path):
+                timestamps[file_path] = os.path.getmtime(full_path)
         
         # Watch directories
         for dir_name in WATCH_DIRS:
-            if os.path.exists(dir_name):
-                for root, dirs, files in os.walk(dir_name):
+            dir_path = os.path.join(ROOT_DIR, dir_name)
+            if os.path.exists(dir_path):
+                for root, dirs, files in os.walk(dir_path):
                     # Skip hidden directories
                     dirs[:] = [d for d in dirs if not d.startswith('.')]
                     
@@ -45,7 +48,9 @@ class FileWatcher:
                         # Skip hidden and temporary files
                         if not file.startswith('.') and not file.endswith('~'):
                             file_path = os.path.join(root, file)
-                            timestamps[file_path] = os.path.getmtime(file_path)
+                            # Store relative to ROOT_DIR for consistency
+                            rel_path = os.path.relpath(file_path, ROOT_DIR)
+                            timestamps[rel_path] = os.path.getmtime(file_path)
         
         return timestamps
     
@@ -84,10 +89,11 @@ class FileWatcher:
             if self.check_changes():
                 print("🔨 Rebuilding site...")
                 try:
-                    # Run build.py
+                    # Run build.py from ROOT_DIR
                     result = subprocess.run([sys.executable, 'build.py'], 
                                          capture_output=True, 
-                                         text=True)
+                                         text=True,
+                                         cwd=ROOT_DIR)
                     
                     if result.returncode == 0:
                         print("✅ Build successful!")
@@ -114,6 +120,13 @@ class FileWatcher:
 class CustomHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
     """HTTP request handler with custom 404 page support"""
     
+    def __init__(self, *args, directory=None, **kwargs):
+        """Initialize with explicit directory to avoid getcwd() issues"""
+        # Set directory to output folder explicitly
+        if directory is None:
+            directory = os.path.join(ROOT_DIR, 'output')
+        super().__init__(*args, directory=directory, **kwargs)
+    
     def log_message(self, format, *args):
         # Only log errors (status codes >= 400)
         if len(args) >= 3 and isinstance(args[1], str) and args[1].startswith(('4', '5')):
@@ -124,7 +137,7 @@ class CustomHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
         try:
             # Remove leading slash and decode URL
             file_path = self.path.lstrip('/')
-            full_path = os.path.join(os.getcwd(), file_path)
+            full_path = os.path.join(self.directory, file_path)
 
             # Handle root path
             if self.path == '/':
@@ -150,7 +163,8 @@ class CustomHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
 
             # Read and serve the 404.html page
             try:
-                with open('404.html', 'rb') as f:
+                notfound_path = os.path.join(self.directory, '404.html')
+                with open(notfound_path, 'rb') as f:
                     self.wfile.write(f.read())
             except FileNotFoundError:
                 # Fallback to simple 404 message if 404.html doesn't exist
@@ -174,6 +188,11 @@ class CustomHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
 
 def serve():
     """Start the development server"""
+    global ROOT_DIR
+    
+    # Store the root directory before changing to output
+    ROOT_DIR = os.getcwd()
+    
     # First, build the site
     print("🔨 Building site...")
     try:
@@ -197,8 +216,8 @@ def serve():
         print(f"❌ Build error: {e}")
         return
     
-    # Change to output directory
-    os.chdir('output')
+    # Don't change directory - keep working from ROOT_DIR
+    # The HTTP handler will use the output directory explicitly
     
     # Start file watcher in a separate thread
     watcher = FileWatcher()
