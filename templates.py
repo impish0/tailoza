@@ -122,7 +122,7 @@ def _generate_post_navigation(prev_post, next_post, post_prefix):
     nav_parts = ['<nav class="post-nav">']
 
     if prev_post:
-        prev_url = f"../../{post_prefix}/{html.escape(prev_post['filename'], quote=True)}/" if post_prefix else f"../../{html.escape(prev_post['filename'], quote=True)}/"
+        prev_url = f"/{post_prefix}/{html.escape(prev_post['filename'], quote=True)}/" if post_prefix else f"/{html.escape(prev_post['filename'], quote=True)}/"
         nav_parts.append(f'''<a href="{prev_url}" class="post-nav-link post-nav-prev">
             <span class="post-nav-label">Previous</span>
             <span class="post-nav-title">{html.escape(prev_post['title'])}</span>
@@ -131,7 +131,7 @@ def _generate_post_navigation(prev_post, next_post, post_prefix):
         nav_parts.append('<span class="post-nav-link post-nav-prev disabled"></span>')
 
     if next_post:
-        next_url = f"../../{post_prefix}/{html.escape(next_post['filename'], quote=True)}/" if post_prefix else f"../../{html.escape(next_post['filename'], quote=True)}/"
+        next_url = f"/{post_prefix}/{html.escape(next_post['filename'], quote=True)}/" if post_prefix else f"/{html.escape(next_post['filename'], quote=True)}/"
         nav_parts.append(f'''<a href="{next_url}" class="post-nav-link post-nav-next">
             <span class="post-nav-label">Next</span>
             <span class="post-nav-title">{html.escape(next_post['title'])}</span>
@@ -250,7 +250,7 @@ def post_template(title, content, date, description="", keywords="", author="", 
     </footer>
 
     <!-- Back to top button -->
-    <button id="back-to-top" class="back-to-top" aria-label="Back to top">↑</button>
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top" data-threshold="300">↑</button>
 
     <!-- Code copy functionality (runs first to set up DOM) -->
     <script src="../../assets/js/code-copy.js"></script>
@@ -261,8 +261,9 @@ def post_template(title, content, date, description="", keywords="", author="", 
     (function() {{
         var btn = document.getElementById('back-to-top');
         if (!btn) return;
+        var threshold = parseInt(btn.dataset.threshold || '300', 10);
         window.addEventListener('scroll', function() {{
-            btn.classList.toggle('visible', window.scrollY > 300);
+            btn.classList.toggle('visible', window.scrollY > threshold);
         }});
         btn.addEventListener('click', function() {{
             window.scrollTo({{ top: 0, behavior: 'smooth' }});

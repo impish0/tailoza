@@ -82,6 +82,9 @@
         });
     }
 
+    // Expose globally for dynamic content
+    window.initDropdowns = initDropdowns;
+
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', initDropdowns);
     } else {

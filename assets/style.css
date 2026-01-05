@@ -474,6 +474,10 @@ article pre {
     color: #4ade80;
 }
 
+.copy-button.copy-failed {
+    color: #f87171;
+}
+
 .code-block-header .copy-button {
     position: static;
     opacity: 1;
@@ -1248,18 +1252,27 @@ input:focus-visible {
     }
 }
 
-/* Skip to content link */
+/* Skip to content link - visually hidden until focused */
 .skip-link {
     position: absolute;
-    top: -40px;
-    left: 0;
-    background: var(--primary);
-    color: var(--primary-foreground);
-    padding: 8px;
-    z-index: 100;
-    transition: top 0.2s;
+    left: -9999px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    z-index: 1000;
 }
 
 .skip-link:focus {
+    position: fixed;
     top: 0;
+    left: 0;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    background: var(--primary);
+    color: var(--primary-foreground);
+    padding: 0.75rem 1rem;
+    text-decoration: none;
+    font-weight: 500;
 }

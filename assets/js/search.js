@@ -117,8 +117,8 @@
             searchOverlay.classList.add('active');
             searchInput.focus();
 
-            // Show loading state while fetching index
-            if (!searchLoaded && !searchLoading) {
+            // Always show loading if not already loaded
+            if (!searchLoaded) {
                 searchResults.innerHTML = '<p class="search-loading">Loading search...</p>';
             }
             await loadSearchIndex();
