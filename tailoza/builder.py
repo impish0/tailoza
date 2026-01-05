@@ -92,10 +92,6 @@ def load_config():
     if 'footer_text' in validated_config:
         validated_config['footer_text_html'] = process_config_html(validated_config['footer_text'])
 
-    # Check for custom.css
-    if Path('assets/custom.css').exists():
-        validated_config['has_custom_css'] = True
-
     return validated_config
 
 def generate_search_index(posts, config):
@@ -156,12 +152,12 @@ def ensure_directories(config=None):
         else:
             post_output_dir = 'output/posts'
 
-        dirs = ['posts', 'output', post_output_dir, 'output/assets', 'output/assets/js', 'output/images', 'output/categories', 'output/page', 'images', 'assets', 'assets/js']
+        dirs = ['posts', 'output', post_output_dir, 'output/assets', 'output/assets/js', 'output/images', 'output/categories', 'output/page', 'images', 'assets']
         for dir_path in dirs:
             Path(dir_path).mkdir(parents=True, exist_ok=True)
 
         # Verify critical directories exist
-        critical_dirs = ['posts', 'assets']
+        critical_dirs = ['posts']
         for dir_path in critical_dirs:
             if not Path(dir_path).exists():
                 raise FileNotFoundError(f"Critical directory '{dir_path}' is missing")
@@ -420,26 +416,27 @@ Sitemap: {config['site_url']}/sitemap.xml"""
     # Copy static assets
     copy_errors = []
 
-    # Check for required style.css
-    style_css = Path('assets/style.css')
+    # Get tailoza package directory for core assets
+    tailoza_dir = Path(__file__).parent
+    core_assets_dir = tailoza_dir / 'assets'
+
+    # Check for required style.css from tailoza package
+    style_css = core_assets_dir / 'style.css'
     if not style_css.exists():
-        copy_errors.append("Required file 'assets/style.css' not found")
+        copy_errors.append("Required file 'tailoza/assets/style.css' not found")
     else:
         copy_asset(style_css, 'output/assets/style.css', copy_errors)
 
-    # Copy optional assets
-    optional_assets = [
-        (Path('assets/prism.css'), 'output/assets/prism.css'),
-        (Path('assets/js/prism.js'), 'output/assets/js/prism.js'),
-        (Path('assets/js/code-copy.js'), 'output/assets/js/code-copy.js'),
-        (Path('assets/js/search.js'), 'output/assets/js/search.js'),
-        (Path('assets/js/dropdown.js'), 'output/assets/js/dropdown.js'),
+    # Copy core application assets from tailoza package
+    core_assets = [
+        (core_assets_dir / 'prism.css', 'output/assets/prism.css'),
+        (core_assets_dir / 'js' / 'prism.js', 'output/assets/js/prism.js'),
+        (core_assets_dir / 'js' / 'code-copy.js', 'output/assets/js/code-copy.js'),
+        (core_assets_dir / 'js' / 'search.js', 'output/assets/js/search.js'),
+        (core_assets_dir / 'js' / 'dropdown.js', 'output/assets/js/dropdown.js'),
     ]
 
-    if config.get('has_custom_css'):
-        optional_assets.append((Path('assets/custom.css'), 'output/assets/custom.css'))
-
-    for src, dest in optional_assets:
+    for src, dest in core_assets:
         copy_asset(src, dest, copy_errors)
 
     # Copy images

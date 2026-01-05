@@ -35,7 +35,7 @@ tailoza/
 ├── serve.py              # User-facing dev server script
 ├── config.json           # User configuration
 │
-├── tailoza/             # Core application package (can be updated by replacing this folder)
+├── tailoza/             # 🎯 Core application package (update by replacing this folder)
 │   ├── __init__.py      # Package exports
 │   ├── builder.py       # Core build orchestration logic
 │   ├── parser.py        # Markdown parsing and HTML conversion
@@ -43,18 +43,22 @@ tailoza/
 │   ├── rss_generator.py # RSS feed generation
 │   ├── sitemap_generator.py # XML sitemap generation
 │   ├── categorize.py    # Auto-categorization logic
-│   └── utils.py         # Shared utilities
+│   ├── utils.py         # Shared utilities
+│   └── assets/          # Core application assets (CSS, JS)
+│       ├── style.css    # Main stylesheet
+│       ├── prism.css    # Code syntax highlighting
+│       └── js/          # JavaScript (search, code-copy, dropdown, prism)
 │
 ├── tests/               # Test suite
 │   └── test_templates.py
 │
-├── posts/               # User content (markdown files)
-├── images/              # User images
-├── assets/              # User assets (CSS, JS)
-└── output/              # Generated static site
+├── posts/               # 📝 User content (markdown files)
+├── images/              # 🖼️ User images
+├── assets/              # 🎨 User assets (favicon - optional, custom.css removed)
+└── output/              # Generated static site (don't edit)
 ```
 
-**Key Design**: The `tailoza/` directory contains all core application code. Users can update Tailoza by simply replacing this directory, keeping their content (`posts/`, `images/`, `assets/`, `config.json`) intact.
+**Key Design**: The `tailoza/` directory contains ALL core application code including CSS and JavaScript. Users can update Tailoza by simply replacing this directory, keeping their content (`posts/`, `images/`, user `assets/`, `config.json`) completely intact.
 
 ### Build Pipeline
 
@@ -102,7 +106,7 @@ The build process:
 
 - Builds site on startup
 - Watches for changes (1-second interval):
-  - Directories: `posts/`, `assets/`, `images/`, `tailoza/`
+  - Directories: `posts/`, `images/`, `tailoza/` (includes all assets)
   - Files: `config.json`, `build.py`, `serve.py`
 - Auto-rebuilds on file changes (skips hidden files and `~` temp files)
 - Serves from `output/` directory on port 8000 with custom 404 handling
@@ -114,7 +118,6 @@ The build process:
 - **Clean URLs**: Posts output as `output/[slug]/index.html` for `/slug/` URLs
 - **Configurable post prefix**: `post_url_prefix` in config controls URL structure (e.g., `/posts/slug/` vs `/slug/`)
 - **Theme via CSS variables**: `data-theme` attribute on `<html>` switches between dark/light modes
-- **Custom CSS support**: Place `assets/custom.css` for additional styles (auto-detected)
 
 ### Output Structure
 

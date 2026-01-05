@@ -195,7 +195,6 @@ def post_template(title, content, date, description="", keywords="", author="", 
     
     <link rel="stylesheet" href="../../assets/style.css">
     <link rel="stylesheet" href="../../assets/prism.css">
-    {f'<link rel="stylesheet" href="../../assets/custom.css">' if config.get('has_custom_css') else ''}
     <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="../../rss.xml">
     {favicon_link(config, "../../")}
 
@@ -316,7 +315,6 @@ def index_template(posts, config, categories=None, pagination=None, post_prefix=
     <meta name="description" content="{html.escape(config['site_description'])}">
     <title>{html.escape(config['site_title'])}</title>
     <link rel="stylesheet" href="assets/style.css">
-    {f'<link rel="stylesheet" href="assets/custom.css">' if config.get('has_custom_css') else ''}
     <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="rss.xml">
     {favicon_link(config)}
 </head>
@@ -383,7 +381,6 @@ def category_template(category_name, posts, config, pagination=None, post_prefix
     <meta name="description" content="Posts in {safe_category} category">
     <title>{safe_category} - {html.escape(config['site_title'])}</title>
     <link rel="stylesheet" href="../../assets/style.css">
-    {f'<link rel="stylesheet" href="../../assets/custom.css">' if config.get('has_custom_css') else ''}
     <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="../../rss.xml">
     {favicon_link(config, "../../")}
 </head>
@@ -418,7 +415,6 @@ def error_404_template(config):
     <meta name="description" content="Page not found">
     <title>404 - Page Not Found | {html.escape(config['site_title'])}</title>
     <link rel="stylesheet" href="/assets/style.css">
-    {f'<link rel="stylesheet" href="/assets/custom.css">' if config.get('has_custom_css') else ''}
     <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="/rss.xml">
     <base href="/">
     {favicon_link(config, "/")}

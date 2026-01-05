@@ -13,7 +13,7 @@ from pathlib import Path
 
 # Configuration
 PORT = 8000
-WATCH_DIRS = ['posts', 'assets', 'images', 'tailoza']
+WATCH_DIRS = ['posts', 'images', 'tailoza']  # tailoza includes all assets
 WATCH_FILES = ['config.json', 'build.py', 'serve.py']
 CHECK_INTERVAL = 1  # seconds
 ROOT_DIR = None  # Will be set to the root directory before changing to output
