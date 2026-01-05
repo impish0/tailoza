@@ -90,6 +90,10 @@ def load_config():
     if 'footer_text' in validated_config:
         validated_config['footer_text_html'] = process_config_html(validated_config['footer_text'])
 
+    # Check for custom.css
+    if Path('assets/custom.css').exists():
+        validated_config['has_custom_css'] = True
+
     return validated_config
 
 def generate_search_index(posts, config):
@@ -424,6 +428,10 @@ Sitemap: {config['site_url']}/sitemap.xml"""
         (Path('assets/js/search.js'), 'output/assets/js/search.js'),
         (Path('assets/js/dropdown.js'), 'output/assets/js/dropdown.js'),
     ]
+    
+    if config.get('has_custom_css'):
+        optional_assets.append((Path('assets/custom.css'), 'output/assets/custom.css'))
+
     for src, dest in optional_assets:
         copy_asset(src, dest, copy_errors)
     

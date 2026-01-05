@@ -195,6 +195,7 @@ def post_template(title, content, date, description="", keywords="", author="", 
     
     <link rel="stylesheet" href="../../assets/style.css">
     <link rel="stylesheet" href="../../assets/prism.css">
+    {f'<link rel="stylesheet" href="../../assets/custom.css">' if config.get('has_custom_css') else ''}
     <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="../../rss.xml">
     {favicon_link(config, "../../")}
 
@@ -224,12 +225,13 @@ def post_template(title, content, date, description="", keywords="", author="", 
     </script>
 </head>
 <body>
+    <a href="#main-content" class="skip-link">Skip to content</a>
     <header>
         <nav>
             <a href="../../index.html">← Home</a>
         </nav>
     </header>
-    <main>
+    <main id="main-content">
         <article>
             <h1>{safe_title}</h1>
             <div class="post-meta">
@@ -313,10 +315,12 @@ def index_template(posts, config, categories=None, pagination=None, post_prefix=
     <meta name="description" content="{html.escape(config['site_description'])}">
     <title>{html.escape(config['site_title'])}</title>
     <link rel="stylesheet" href="assets/style.css">
+    {f'<link rel="stylesheet" href="assets/custom.css">' if config.get('has_custom_css') else ''}
     <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="rss.xml">
     {favicon_link(config)}
 </head>
 <body>
+    <a href="#main-content" class="skip-link">Skip to content</a>
     <header>
         <h1>{html.escape(config['site_title'])}</h1>
         <nav>
@@ -326,7 +330,7 @@ def index_template(posts, config, categories=None, pagination=None, post_prefix=
             <a href="rss.xml">RSS</a>
         </nav>
     </header>
-    <main>
+    <main id="main-content">
         <section class="posts">
             {post_list}
         </section>
@@ -378,16 +382,18 @@ def category_template(category_name, posts, config, pagination=None, post_prefix
     <meta name="description" content="Posts in {safe_category} category">
     <title>{safe_category} - {html.escape(config['site_title'])}</title>
     <link rel="stylesheet" href="../../assets/style.css">
+    {f'<link rel="stylesheet" href="../../assets/custom.css">' if config.get('has_custom_css') else ''}
     <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="../../rss.xml">
     {favicon_link(config, "../../")}
 </head>
 <body>
+    <a href="#main-content" class="skip-link">Skip to content</a>
     <header>
         <nav>
             <a href="../../index.html">← Home</a>
         </nav>
     </header>
-    <main>
+    <main id="main-content">
         <h1>Category: {safe_category}</h1>
         <section class="posts">
             {post_list}
@@ -411,6 +417,7 @@ def error_404_template(config):
     <meta name="description" content="Page not found">
     <title>404 - Page Not Found | {html.escape(config['site_title'])}</title>
     <link rel="stylesheet" href="/assets/style.css">
+    {f'<link rel="stylesheet" href="/assets/custom.css">' if config.get('has_custom_css') else ''}
     <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="/rss.xml">
     <base href="/">
     {favicon_link(config, "/")}
@@ -470,12 +477,13 @@ def error_404_template(config):
     </style>
 </head>
 <body>
+    <a href="#main-content" class="skip-link">Skip to content</a>
     <header>
         <nav>
             <a href="/">← Home</a>
         </nav>
     </header>
-    <main>
+    <main id="main-content">
         <div class="error-page">
             <div class="error-code">404</div>
             <h1 class="error-title">Page Not Found</h1>
