@@ -3,7 +3,7 @@
 from datetime import datetime
 import xml.etree.ElementTree as ET
 from xml.dom import minidom
-from utils import category_slug
+from .utils import category_slug
 
 def generate_sitemap(posts, config):
     """Generate sitemap.xml from posts"""

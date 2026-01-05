@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import html
-from utils import category_slug, favicon_link
+from .utils import category_slug, favicon_link
 
 # Pagination display constants
 MAX_PAGES_SHOW_ALL = 7  # Show all page numbers when total pages <= this value

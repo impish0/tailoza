@@ -1,7 +1,13 @@
 #!/usr/bin/env python3
 """Unit tests for pagination functions in templates.py"""
 import unittest
-from templates import (
+import sys
+from pathlib import Path
+
+# Add parent directory to path so we can import tailoza
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
+from tailoza.templates import (
     _build_pagination_url,
     _render_page_link,
     _render_page_numbers,
