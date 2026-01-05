@@ -90,6 +90,10 @@ def load_config():
     if 'footer_text' in validated_config:
         validated_config['footer_text_html'] = process_config_html(validated_config['footer_text'])
 
+    # Check for custom.css
+    if Path('assets/custom.css').exists():
+        validated_config['has_custom_css'] = True
+
     return validated_config
 
 def generate_search_index(posts, config):
@@ -196,21 +200,23 @@ def build_site():
     if not posts_dir.exists():
         print("Error: 'posts' directory not found")
         return False
-    
+
+    # First pass: collect all post data
+    post_data = []
     for post_file in sorted(posts_dir.glob('*.md')):
         filename = post_file.name
-        
+
         # Skip draft posts (files starting with underscore)
         if filename.startswith('_'):
             continue
-            
+
         try:
             with open(post_file, 'r', encoding='utf-8') as f:
                 content = f.read()
-            
+
             # Parse frontmatter and content
             frontmatter, body = parse_frontmatter(content)
-            
+
             # Get post metadata
             title = frontmatter.get('title', filename.replace('.md', '').replace('-', ' ').title())
             date = get_post_date(frontmatter, filename)
@@ -219,13 +225,13 @@ def build_site():
             author = frontmatter.get('author', '')
             image = frontmatter.get('image', '')
             post_categories = frontmatter.get('categories', [])
-            
+
             # Convert markdown to HTML
             html_content = markdown_to_html(body)
-            
+
             # Calculate reading time
             reading_time = calculate_reading_time(body)
-            
+
             # Generate TOC if enabled in frontmatter
             toc_html = ""
             if frontmatter.get('toc', '').lower() == 'true':
@@ -235,49 +241,75 @@ def build_site():
                 if len([h for h in headings if h['level'] > 1]) >= MIN_HEADINGS_FOR_TOC:
                     toc_html = generate_toc(headings)
                     html_content = add_heading_ids(html_content, headings)
-            
+
             # Generate directory name for clean URLs (no .html extension)
             post_dir_name = filename.replace('.md', '')
-            
-            # Create post HTML
-            post_url = f"{config['site_url']}/{post_url_path}{post_dir_name}/"
-            post_html = post_template(title, html_content, date, description, keywords, author, image, toc_html, post_url, config, post_categories, reading_time, post_prefix)
-            
-            # Create post directory and write index.html inside it
-            post_directory = Path(post_output_dir) / post_dir_name
-            post_directory.mkdir(parents=True, exist_ok=True)
-            with open(post_directory / 'index.html', 'w', encoding='utf-8') as f:
-                f.write(post_html)
-            
-            # Add to posts list for index and RSS
-            posts.append({
+
+            post_data.append({
                 'title': title,
                 'date': date,
                 'description': description,
-                'filename': post_dir_name,  # Now stores directory name instead of .html filename
+                'keywords': keywords,
+                'author': author,
+                'image': image,
+                'filename': post_dir_name,
                 'content': html_content,
                 'categories': post_categories,
-                'reading_time': reading_time
+                'reading_time': reading_time,
+                'toc_html': toc_html
             })
-            
-            # Track posts by category
-            for category in post_categories:
-                if category not in categories:
-                    categories[category] = []
-                categories[category].append({
-                    'title': title,
-                    'date': date,
-                    'description': description,
-                    'filename': post_dir_name,  # Now stores directory name instead of .html filename
-                    'reading_time': reading_time
-                })
-            
+
         except Exception as e:
             print(f"Error processing {filename}: {e}")
             continue
-    
+
     # Sort posts by date (newest first)
-    posts.sort(key=lambda x: x['date'], reverse=True)
+    post_data.sort(key=lambda x: x['date'], reverse=True)
+
+    # Second pass: generate HTML with prev/next navigation
+    for i, post in enumerate(post_data):
+        # Previous post is newer (lower index), next post is older (higher index)
+        prev_post = post_data[i - 1] if i > 0 else None
+        next_post = post_data[i + 1] if i < len(post_data) - 1 else None
+
+        # Create post HTML
+        post_url = f"{config['site_url']}/{post_url_path}{post['filename']}/"
+        post_html = post_template(
+            post['title'], post['content'], post['date'],
+            post['description'], post['keywords'], post['author'],
+            post['image'], post['toc_html'], post_url, config,
+            post['categories'], post['reading_time'], post_prefix,
+            prev_post, next_post
+        )
+
+        # Create post directory and write index.html inside it
+        post_directory = Path(post_output_dir) / post['filename']
+        post_directory.mkdir(parents=True, exist_ok=True)
+        with open(post_directory / 'index.html', 'w', encoding='utf-8') as f:
+            f.write(post_html)
+
+        # Add to posts list for index and RSS
+        posts.append({
+            'title': post['title'],
+            'date': post['date'],
+            'description': post['description'],
+            'filename': post['filename'],
+            'content': post['content'],
+            'categories': post['categories'],
+            'reading_time': post['reading_time']
+        })
+
+        # Track posts by category
+        for category in post['categories']:
+            if category not in categories:
+                categories[category] = []
+            categories[category].append({
+                'title': post['title'],
+                'date': post['date'],
+                'description': post['description'],
+                'filename': post['filename'],
+                'reading_time': post['reading_time']
+            })
     
     # Generate index pages with pagination
     posts_per_page = config.get('posts_per_page', 20)
@@ -394,7 +426,12 @@ Sitemap: {config['site_url']}/sitemap.xml"""
         (Path('assets/js/prism.js'), 'output/assets/js/prism.js'),
         (Path('assets/js/code-copy.js'), 'output/assets/js/code-copy.js'),
         (Path('assets/js/search.js'), 'output/assets/js/search.js'),
+        (Path('assets/js/dropdown.js'), 'output/assets/js/dropdown.js'),
     ]
+    
+    if config.get('has_custom_css'):
+        optional_assets.append((Path('assets/custom.css'), 'output/assets/custom.css'))
+
     for src, dest in optional_assets:
         copy_asset(src, dest, copy_errors)
     

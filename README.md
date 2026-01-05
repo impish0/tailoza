@@ -31,6 +31,13 @@ What I left out on purpose: complex theming, plugins, databases, auth, comments,
 
 ---
 
+## Documentation
+
+- **[THEMES.md](THEMES.md)** - Available color themes (dark, light, sepia, nord, forest)
+- **[CUSTOMIZATION.md](CUSTOMIZATION.md)** - Custom CSS, print styles, accessibility features
+
+---
+
 ## Quick Start
 
 ```bash
@@ -70,7 +77,7 @@ Edit `config.json`:
 | `site_description` | Used in RSS and meta tags |
 | `author` | Default author for posts |
 | `footer_text` | Appears at bottom of pages (HTML allowed) |
-| `theme` | `"dark"` or `"light"` |
+| `theme` | `"dark"`, `"light"`, `"sepia"`, `"nord"`, or `"forest"` (see [THEMES.md](THEMES.md)) |
 | `posts_per_page` | How many posts per page |
 | `timezone` | UTC offset for RSS dates (e.g., `"+0500"`, `"-0800"`) |
 | `post_url_prefix` | URL path for posts (`"/"` for root, `"/posts"` for /posts/slug/) |
@@ -141,7 +148,7 @@ The build script finds it automatically. No config needed.
 
 ### Styling
 
-Edit `assets/style.css`. Colors use CSS variables at the top - change those to retheme the whole site.
+Edit `assets/style.css`. Colors use CSS variables at the top - change those to retheme the whole site. For custom overrides without modifying core files, create `assets/custom.css` (see [CUSTOMIZATION.md](CUSTOMIZATION.md)).
 
 ### Templates
 

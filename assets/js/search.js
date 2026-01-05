@@ -2,19 +2,24 @@
 (function() {
     let searchIndex = [];
     let searchLoaded = false;
-    
+    let searchLoading = false;
+
     // Load search index
     function loadSearchIndex() {
         if (searchLoaded) return Promise.resolve();
-        
+        if (searchLoading) return Promise.resolve();
+
+        searchLoading = true;
         return fetch('/search-index.json')
             .then(response => response.json())
             .then(data => {
                 searchIndex = data;
                 searchLoaded = true;
+                searchLoading = false;
             })
             .catch(error => {
                 console.error('Failed to load search index:', error);
+                searchLoading = false;
             });
     }
     
@@ -109,9 +114,18 @@
         // Toggle search overlay
         searchToggle.addEventListener('click', async (e) => {
             e.preventDefault();
-            await loadSearchIndex();
             searchOverlay.classList.add('active');
             searchInput.focus();
+
+            // Always show loading if not already loaded
+            if (!searchLoaded) {
+                searchResults.innerHTML = '<p class="search-loading">Loading search...</p>';
+            }
+            await loadSearchIndex();
+            // Reset to hint after loading (if user hasn't started typing)
+            if (searchInput.value.length < 2) {
+                searchResults.innerHTML = '<p class="search-hint">Type at least 2 characters to search...</p>';
+            }
         });
         
         // Close search overlay
@@ -121,12 +135,28 @@
             searchResults.innerHTML = '';
         });
         
-        // Close on ESC key
+        // Close on ESC key and handle focus trap
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && searchOverlay.classList.contains('active')) {
+            if (!searchOverlay.classList.contains('active')) return;
+
+            if (e.key === 'Escape') {
                 searchOverlay.classList.remove('active');
                 searchInput.value = '';
                 searchResults.innerHTML = '';
+                searchToggle.focus();
+            } else if (e.key === 'Tab') {
+                // Focus trap within modal
+                var focusable = searchOverlay.querySelectorAll('input, button, a[href]');
+                var first = focusable[0];
+                var last = focusable[focusable.length - 1];
+
+                if (e.shiftKey && document.activeElement === first) {
+                    e.preventDefault();
+                    last.focus();
+                } else if (!e.shiftKey && document.activeElement === last) {
+                    e.preventDefault();
+                    first.focus();
+                }
             }
         });
         

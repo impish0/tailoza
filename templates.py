@@ -114,9 +114,39 @@ def generate_pagination_html(pagination, base_url=''):
 
     return '\n'.join(html_parts)
 
-def post_template(title, content, date, description="", keywords="", author="", image="", toc="", url="", config={}, categories=[], reading_time=0, post_prefix="posts"):
+def _generate_post_navigation(prev_post, next_post, post_prefix):
+    """Generate previous/next post navigation HTML."""
+    if not prev_post and not next_post:
+        return ''
+
+    nav_parts = ['<nav class="post-nav">']
+
+    if prev_post:
+        prev_url = f"/{post_prefix}/{html.escape(prev_post['filename'], quote=True)}/" if post_prefix else f"/{html.escape(prev_post['filename'], quote=True)}/"
+        nav_parts.append(f'''<a href="{prev_url}" class="post-nav-link post-nav-prev">
+            <span class="post-nav-label">Previous</span>
+            <span class="post-nav-title">{html.escape(prev_post['title'])}</span>
+        </a>''')
+    else:
+        nav_parts.append('<span class="post-nav-link post-nav-prev disabled"></span>')
+
+    if next_post:
+        next_url = f"/{post_prefix}/{html.escape(next_post['filename'], quote=True)}/" if post_prefix else f"/{html.escape(next_post['filename'], quote=True)}/"
+        nav_parts.append(f'''<a href="{next_url}" class="post-nav-link post-nav-next">
+            <span class="post-nav-label">Next</span>
+            <span class="post-nav-title">{html.escape(next_post['title'])}</span>
+        </a>''')
+    else:
+        nav_parts.append('<span class="post-nav-link post-nav-next disabled"></span>')
+
+    nav_parts.append('</nav>')
+    return '\n'.join(nav_parts)
+
+
+def post_template(title, content, date, description="", keywords="", author="", image="", toc="", url="", config={}, categories=[], reading_time=0, post_prefix="posts", prev_post=None, next_post=None):
     """Generate HTML for a blog post with enhanced SEO"""
     theme = config.get('theme', 'light')
+    post_nav = _generate_post_navigation(prev_post, next_post, post_prefix)
     
     # Build absolute image URL if image is provided
     image_url = ""
@@ -165,6 +195,7 @@ def post_template(title, content, date, description="", keywords="", author="", 
     
     <link rel="stylesheet" href="../../assets/style.css">
     <link rel="stylesheet" href="../../assets/prism.css">
+    {f'<link rel="stylesheet" href="../../assets/custom.css">' if config.get('has_custom_css') else ''}
     <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="../../rss.xml">
     {favicon_link(config, "../../")}
 
@@ -194,12 +225,13 @@ def post_template(title, content, date, description="", keywords="", author="", 
     </script>
 </head>
 <body>
+    <a href="#main-content" class="skip-link">Skip to content</a>
     <header>
         <nav>
             <a href="../../index.html">← Home</a>
         </nav>
     </header>
-    <main>
+    <main id="main-content">
         <article>
             <h1>{safe_title}</h1>
             <div class="post-meta">
@@ -210,16 +242,34 @@ def post_template(title, content, date, description="", keywords="", author="", 
             </div>
             {toc}
             {content}
+            {post_nav}
         </article>
     </main>
     <footer>
         <p>© {date[:4]} | <a href="../../rss.xml">RSS</a></p>
     </footer>
-    
+
+    <!-- Back to top button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top" data-threshold="300">↑</button>
+
     <!-- Code copy functionality (runs first to set up DOM) -->
     <script src="../../assets/js/code-copy.js"></script>
     <!-- Prism.js for syntax highlighting -->
     <script src="../../assets/js/prism.js"></script>
+    <!-- Back to top script -->
+    <script>
+    (function() {{
+        var btn = document.getElementById('back-to-top');
+        if (!btn) return;
+        var threshold = parseInt(btn.dataset.threshold || '300', 10);
+        window.addEventListener('scroll', function() {{
+            btn.classList.toggle('visible', window.scrollY > threshold);
+        }});
+        btn.addEventListener('click', function() {{
+            window.scrollTo({{ top: 0, behavior: 'smooth' }});
+        }});
+    }})();
+    </script>
 </body>
 </html>"""
 
@@ -266,10 +316,12 @@ def index_template(posts, config, categories=None, pagination=None, post_prefix=
     <meta name="description" content="{html.escape(config['site_description'])}">
     <title>{html.escape(config['site_title'])}</title>
     <link rel="stylesheet" href="assets/style.css">
+    {f'<link rel="stylesheet" href="assets/custom.css">' if config.get('has_custom_css') else ''}
     <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="rss.xml">
     {favicon_link(config)}
 </head>
 <body>
+    <a href="#main-content" class="skip-link">Skip to content</a>
     <header>
         <h1>{html.escape(config['site_title'])}</h1>
         <nav>
@@ -279,7 +331,7 @@ def index_template(posts, config, categories=None, pagination=None, post_prefix=
             <a href="rss.xml">RSS</a>
         </nav>
     </header>
-    <main>
+    <main id="main-content">
         <section class="posts">
             {post_list}
         </section>
@@ -288,20 +340,21 @@ def index_template(posts, config, categories=None, pagination=None, post_prefix=
     <footer>
         <p>{config.get('footer_text_html', html.escape(config.get('footer_text', '')))}</p>
     </footer>
-    
+
     <!-- Search overlay -->
-    <div id="search-overlay" class="search-overlay">
+    <div id="search-overlay" class="search-overlay" role="dialog" aria-modal="true" aria-label="Search posts">
         <div class="search-container">
             <div class="search-header">
-                <input type="text" id="search-input" class="search-input" placeholder="Search posts..." autocomplete="off">
-                <button id="search-close" class="search-close">✕</button>
+                <input type="text" id="search-input" class="search-input" placeholder="Search posts..." autocomplete="off" aria-label="Search query">
+                <button id="search-close" class="search-close" aria-label="Close search">✕</button>
             </div>
-            <div id="search-results" class="search-results">
+            <div id="search-results" class="search-results" role="region" aria-live="polite">
                 <p class="search-hint">Type at least 2 characters to search...</p>
             </div>
         </div>
     </div>
-    
+
+    <script src="/assets/js/dropdown.js"></script>
     <script src="/assets/js/search.js"></script>
 </body>
 </html>"""
@@ -330,16 +383,18 @@ def category_template(category_name, posts, config, pagination=None, post_prefix
     <meta name="description" content="Posts in {safe_category} category">
     <title>{safe_category} - {html.escape(config['site_title'])}</title>
     <link rel="stylesheet" href="../../assets/style.css">
+    {f'<link rel="stylesheet" href="../../assets/custom.css">' if config.get('has_custom_css') else ''}
     <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="../../rss.xml">
     {favicon_link(config, "../../")}
 </head>
 <body>
+    <a href="#main-content" class="skip-link">Skip to content</a>
     <header>
         <nav>
             <a href="../../index.html">← Home</a>
         </nav>
     </header>
-    <main>
+    <main id="main-content">
         <h1>Category: {safe_category}</h1>
         <section class="posts">
             {post_list}
@@ -363,6 +418,7 @@ def error_404_template(config):
     <meta name="description" content="Page not found">
     <title>404 - Page Not Found | {html.escape(config['site_title'])}</title>
     <link rel="stylesheet" href="/assets/style.css">
+    {f'<link rel="stylesheet" href="/assets/custom.css">' if config.get('has_custom_css') else ''}
     <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="/rss.xml">
     <base href="/">
     {favicon_link(config, "/")}
@@ -422,12 +478,13 @@ def error_404_template(config):
     </style>
 </head>
 <body>
+    <a href="#main-content" class="skip-link">Skip to content</a>
     <header>
         <nav>
             <a href="/">← Home</a>
         </nav>
     </header>
-    <main>
+    <main id="main-content">
         <div class="error-page">
             <div class="error-code">404</div>
             <h1 class="error-title">Page Not Found</h1>
@@ -443,20 +500,21 @@ def error_404_template(config):
     <footer>
         <p>{config.get('footer_text_html', html.escape(config.get('footer_text', '')))}</p>
     </footer>
-    
+
     <!-- Search overlay -->
-    <div id="search-overlay" class="search-overlay">
+    <div id="search-overlay" class="search-overlay" role="dialog" aria-modal="true" aria-label="Search posts">
         <div class="search-container">
             <div class="search-header">
-                <input type="text" id="search-input" class="search-input" placeholder="Search posts..." autocomplete="off">
-                <button id="search-close" class="search-close">✕</button>
+                <input type="text" id="search-input" class="search-input" placeholder="Search posts..." autocomplete="off" aria-label="Search query">
+                <button id="search-close" class="search-close" aria-label="Close search">✕</button>
             </div>
-            <div id="search-results" class="search-results">
+            <div id="search-results" class="search-results" role="region" aria-live="polite">
                 <p class="search-hint">Type at least 2 characters to search...</p>
             </div>
         </div>
     </div>
-    
+
+    <script src="/assets/js/dropdown.js"></script>
     <script src="/assets/js/search.js"></script>
 </body>
 </html>"""
