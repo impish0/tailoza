@@ -245,7 +245,7 @@ def post_template(title, content, date, description="", keywords="", author="", 
         </article>
     </main>
     <footer>
-        <p>© {date[:4]} | <a href="../../rss.xml">RSS</a></p>
+        <p>{config.get('footer_text_html', html.escape(config.get('footer_text', '')))}</p>
     </footer>
 
     <!-- Back to top button -->

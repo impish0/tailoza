@@ -13,6 +13,7 @@ from tailoza.templates import (
     _render_page_numbers,
     _render_nav_button,
     generate_pagination_html,
+    post_template,
     MAX_PAGES_SHOW_ALL,
     PAGES_NEAR_EDGE,
 )
@@ -232,6 +233,25 @@ class TestConstants(unittest.TestCase):
     def test_pages_near_edge(self):
         """PAGES_NEAR_EDGE should be 3"""
         self.assertEqual(PAGES_NEAR_EDGE, 3)
+
+
+class TestPostTemplate(unittest.TestCase):
+    """Tests for post template rendering"""
+
+    def test_footer_uses_config_footer_text(self):
+        """Post pages should use the configured footer text"""
+        result = post_template(
+            title="Example",
+            content="<p>Hello</p>",
+            date="2024-01-01",
+            config={
+                "site_url": "https://example.com",
+                "footer_text": "Fallback footer",
+                "footer_text_html": 'Custom footer <a href="https://example.com">Link</a>',
+            },
+        )
+        self.assertIn('Custom footer <a href="https://example.com">Link</a>', result)
+        self.assertNotIn('© 2024 | <a href="../../rss.xml">RSS</a>', result)
 
 
 if __name__ == '__main__':

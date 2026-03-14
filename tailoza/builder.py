@@ -14,36 +14,73 @@ from .categorize import analyze_post_content, load_category_rules
 import re
 import html
 
+SAFE_LINK_TARGETS = {'_self', '_blank', '_parent', '_top'}
+UNSAFE_URL_SCHEMES = ('javascript:', 'data:', 'vbscript:')
+
+
+def _is_safe_href(url):
+    """Allow normal relative URLs and common safe absolute schemes."""
+    normalized_url = url.strip().lower()
+    return normalized_url and not normalized_url.startswith(UNSAFE_URL_SCHEMES)
+
+
+def _build_safe_link(attrs_text, link_text):
+    """Build a sanitized anchor tag from a raw attribute string."""
+    attrs = {}
+    for name, _, value in re.findall(r'([a-zA-Z_:][-\w:.]*)\s*=\s*(["\'])(.*?)\2', attrs_text):
+        attrs[name.lower()] = value
+
+    href = attrs.get('href')
+    if not href or not _is_safe_href(href):
+        return None
+
+    safe_attrs = [f'href="{html.escape(href, quote=True)}"']
+
+    target = attrs.get('target')
+    if target in SAFE_LINK_TARGETS:
+        safe_attrs.append(f'target="{html.escape(target, quote=True)}"')
+
+    rel = attrs.get('rel', '').split()
+    if target == '_blank':
+        for token in ('noopener', 'noreferrer'):
+            if token not in rel:
+                rel.append(token)
+    if rel:
+        safe_attrs.append(f'rel="{html.escape(" ".join(rel), quote=True)}"')
+
+    safe_link_text = html.escape(link_text)
+    return f'<a {" ".join(safe_attrs)}>{safe_link_text}</a>'
+
+
 def process_config_html(text):
     """Safely process HTML links in config text while escaping other content"""
     if not text:
         return ''
 
     # Extract safe HTML patterns before escaping
-    # Pattern for basic links: <a href="url">text</a>
-    link_pattern = r'<a href="([^"]+)">([^<]+)</a>'
+    # Pattern for anchor tags with plain-text bodies.
+    link_pattern = r'<a\s+([^>]*?)>([^<]+)</a>'
     links = []
 
     def extract_link(match):
-        url = match.group(1)
-        link_text = match.group(2)
+        proper_link = _build_safe_link(match.group(1), match.group(2))
+        if not proper_link:
+            return match.group(0)
+
         # Store the link with a placeholder
         placeholder = f'__LINK_{len(links)}__'
-        links.append((url, link_text))
+        links.append(proper_link)
         return placeholder
 
     # Extract links and replace with placeholders
-    text_with_placeholders = re.sub(link_pattern, extract_link, text)
+    text_with_placeholders = re.sub(link_pattern, extract_link, text, flags=re.IGNORECASE)
 
     # Escape everything else
     escaped_text = html.escape(text_with_placeholders)
 
     # Restore links as proper HTML
-    for i, (url, link_text) in enumerate(links):
+    for i, proper_link in enumerate(links):
         placeholder = f'__LINK_{i}__'
-        safe_url = html.escape(url, quote=True)
-        safe_link_text = html.escape(link_text)
-        proper_link = f'<a href="{safe_url}">{safe_link_text}</a>'
         escaped_text = escaped_text.replace(placeholder, proper_link)
 
     return escaped_text
