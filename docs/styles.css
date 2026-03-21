@@ -1,174 +1,417 @@
-* {
-    margin: 0;
-    padding: 0;
+/* =============================================================
+   Tailoza Docs — Layout & Components
+   Color tokens inherited from ../tailoza/assets/style.css
+   ============================================================= */
+
+/* -------------------------------------------------------------
+   Docs-specific variables
+   ------------------------------------------------------------- */
+:root {
+    --nav-width: 16rem;
+    --content-max: 50rem;
+    --note-bg: rgba(0, 137, 233, 0.12);
+    --note-border: #0089e9;
+    --warning-bg: rgba(233, 137, 0, 0.12);
+    --warning-border: #e98900;
+    --tip-bg: rgba(0, 180, 80, 0.12);
+    --tip-border: #00b450;
 }
 
-:root {
-    --radius: 0.65rem;
-    --max-width: 700px;
-    
-    /* Core colors */
-    --background: #ffffff;
-    --foreground: #09090b;
-    --card: #f9f9f9;
-    --card-foreground: #09090b;
-    --primary: #8e51ff;
-    --primary-foreground: #f5f3ff;
-    --secondary: #f4f4f5;
-    --secondary-foreground: #18181b;
-    --muted: #f4f4f5;
-    --muted-foreground: #71717b;
-    --accent: #f4f4f5;
-    --accent-foreground: #18181b;
-    --destructive: #e7000b;
-    --border: #e4e4e7;
-    --input: #e4e4e7;
-    --ring: #8e51ff;
-    --note: rgba(0, 137, 233, 0.5);
+/* -------------------------------------------------------------
+   Reset & Base
+   ------------------------------------------------------------- */
+html {
+    scroll-behavior: smooth;
 }
 
 body {
     display: grid;
-    grid-template-columns: 250px 1fr; /* Nav width | Main content */
-    height: 100vh;
-    font-size: 1.25rem;
+    grid-template-columns: var(--nav-width) 1fr;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    font-size: 1rem;
     line-height: 1.6;
-    font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto,
+        Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', Arial, sans-serif;
     background-color: var(--background);
     color: var(--foreground);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Navigation Styles */
+/* -------------------------------------------------------------
+   Navigation — sticky sidebar
+   ------------------------------------------------------------- */
 #navbar {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
     background-color: var(--card);
-    padding: 1rem 0.5rem;
+    padding: 1.5rem 0.75rem;
     border-right: 1px solid var(--border);
-    overflow-y: auto; /* Scroll if content is too tall */
 }
 
 #navbar header {
-    font-weight: bold;
-    font-size: 1.5rem;
+    font-weight: 600;
+    font-size: 1.25rem;
+    padding: 0 0.5rem;
     margin-bottom: 1.5rem;
-    color: var(--card-foreground);
-    padding: 0.5rem;
+    color: var(--foreground);
+}
+
+#navbar header a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.nav-group {
+    border: none;
+    border-radius: 0;
+    margin: 0;
+    overflow: visible;
+}
+
+.nav-group summary {
+    display: none;
 }
 
 .nav-link {
     display: block;
-    padding: 0.75rem 0.5rem;
+    padding: 0.5rem 1rem;
+    margin-bottom: 0.125rem;
     text-decoration: none;
-    border-radius: 5px;
-    color: var(--card-foreground);
-    border-bottom: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--foreground);
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
 }
 
 .nav-link:hover {
-    color: var(--accent-foreground);
     background-color: var(--accent);
+    color: var(--accent-foreground);
 }
 
-/* Main Content Styles */
+.nav-link.active {
+    background-color: var(--accent);
+    color: var(--accent-foreground);
+    font-weight: 600;
+}
+
+/* -------------------------------------------------------------
+   Main content area
+   ------------------------------------------------------------- */
 #main-doc {
-    padding: 1.5rem;
-    overflow-y: auto; /* Scroll if content is too tall */
-    max-width: 900px;
+    padding: 2.5rem 2rem 4rem;
 }
 
+.content-wrapper {
+    max-width: var(--content-max);
+    margin: 0 auto;
+}
+
+/* -------------------------------------------------------------
+   Typography
+   ------------------------------------------------------------- */
+h1 {
+    font-size: 2em;
+    font-weight: 600;
+    margin-bottom: 0.625rem;
+    line-height: 1.2;
+    color: var(--foreground);
+}
+
+h2 {
+    font-size: 1.5em;
+    font-weight: 600;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    line-height: 1.3;
+    color: var(--foreground);
+}
+
+h3 {
+    font-size: 1.2em;
+    font-weight: 600;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+    color: var(--foreground);
+}
+
+p {
+    margin-bottom: 1rem;
+    line-height: 1.7;
+}
+
+a {
+    color: var(--primary);
+    text-decoration: none;
+    text-underline-offset: 0.25rem;
+    transition: all 0.2s ease;
+}
+
+a:hover {
+    text-decoration: underline;
+    text-decoration-color: var(--primary);
+}
+
+ul,
+ol {
+    margin-bottom: 1rem;
+    padding-left: 1.875rem;
+}
+
+li {
+    margin-bottom: 0.3125rem;
+}
+
+strong {
+    font-weight: 600;
+}
+
+/* -------------------------------------------------------------
+   Images
+   ------------------------------------------------------------- */
 .image-style {
     display: block;
-    max-width: 700px;
+    max-width: 100%;
     height: auto;
-    border-radius: 10px;
+    border-radius: var(--radius);
     margin: 1.5rem 0;
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
     border: 1px solid var(--border);
 }
 
-.main-section {
-    margin-bottom: 30px;
+/* -------------------------------------------------------------
+   Code — inline by default, block inside <pre>
+   ------------------------------------------------------------- */
+code {
+    background-color: var(--code-bg, var(--muted));
+    color: var(--code-text, var(--foreground));
+    padding: 0.2rem 0.4rem;
+    border-radius: calc(var(--radius) - 0.25rem);
+    font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', 'Monaco', monospace;
+    font-size: 0.875em;
+    font-weight: 500;
 }
 
-.main-section header {
-    font-weight: bold;
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-    color: var(--secondary-foreground);
+pre {
+    background-color: var(--card);
+    border: 1px solid var(--border);
+    padding: 1rem;
+    border-radius: var(--radius);
+    overflow-x: auto;
+    margin: 1.5rem 0;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
 }
 
-p {
-    margin-bottom: 1rem;
+pre code {
+    display: block;
+    background-color: transparent;
+    padding: 0;
+    border-radius: 0;
+    color: var(--foreground);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    white-space: pre;
+    font-weight: 400;
+}
+
+/* -------------------------------------------------------------
+   Callout variants — note / warning / tip
+   ------------------------------------------------------------- */
+.note,
+.warning,
+.tip {
+    padding: 0.875rem 1rem;
+    margin: 1rem 0;
+    border-radius: var(--radius);
+    font-size: 0.875rem;
     line-height: 1.6;
 }
 
-ul {
-    margin-bottom: 1rem;
-    padding-left: 1.5rem;
-}
-
-a {
-    color: var(--primary);
-    text-decoration: underline;
-}
-
-code {
-    display: block;
-    background-color: var(--muted);
-    padding: 15px;
-    margin: 15px 0;
-    border-radius: calc(var(--radius) - 0.25rem);
-    font-family: 'Courier New', monospace;
-    border: 1px solid var(--border);
-    color: var(--card-foreground);
-    font-size: 0.9rem;
-    line-height: 1.5;
-    white-space: pre;
-    overflow-x: auto;
-}
-
 .note {
-    display: block;
-    background-color: var(--note);
-    padding: 15px;
-    margin: 15px 0;
-    border-radius: calc(var(--radius) - 0.25rem);
-    font-family: 'Courier New', monospace;
-    border: 1px solid var(--border);
-    color: var(--card-foreground);
-    font-size: 0.9rem;
-    line-height: 1.5;
-    white-space: pre;
-    overflow-x: auto;
+    background-color: var(--note-bg);
+    border: 1px solid var(--note-border);
 }
 
-.inline-code {
-    display: inline;
+.warning {
+    background-color: var(--warning-bg);
+    border: 1px solid var(--warning-border);
+}
+
+.tip {
+    background-color: var(--tip-bg);
+    border: 1px solid var(--tip-border);
+}
+
+/* -------------------------------------------------------------
+   Details / Summary — collapsible sections
+   ------------------------------------------------------------- */
+details {
+    margin-bottom: 0.5rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+}
+
+details summary {
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1.0625rem;
+    padding: 0.75rem 1rem;
+    background-color: var(--card);
+    color: var(--foreground);
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: background-color 0.2s ease;
+}
+
+details summary::-webkit-details-marker {
+    display: none;
+}
+
+details summary::before {
+    content: "\25B8";
+    display: inline-block;
+    transition: transform 0.2s ease;
+    font-size: 0.75em;
+    color: var(--muted-foreground);
+}
+
+details[open] summary::before {
+    transform: rotate(90deg);
+}
+
+details summary:hover {
+    background-color: var(--accent);
+}
+
+details > *:not(summary) {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+details > *:not(summary):first-of-type {
+    padding-top: 0.75rem;
+}
+
+details > *:not(summary):last-child {
+    padding-bottom: 0.75rem;
+}
+
+details > pre {
+    margin: 0.75rem 1rem;
+    padding: 1rem;
+}
+
+details > pre code {
+    padding: 0;
+}
+
+/* -------------------------------------------------------------
+   Tables
+   ------------------------------------------------------------- */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    font-size: 0.875rem;
+}
+
+th,
+td {
+    border: 1px solid var(--border);
+    padding: 0.625rem 0.75rem;
+    text-align: left;
+}
+
+th {
     background-color: var(--muted);
-    padding: 0.15rem 0.4rem;
-    border-radius: 4px;
-    font-family: 'Courier New', monospace;
-    font-size: 0.85em;
-    border: 1px solid var(--border);
-    color: var(--primary);
+    font-weight: 600;
+    color: var(--foreground);
 }
 
-/* Responsive Design */
+tr:nth-child(even) {
+    background-color: var(--card);
+}
+
+/* -------------------------------------------------------------
+   Section spacing
+   ------------------------------------------------------------- */
+.main-section {
+    margin-bottom: 2.5rem;
+}
+
+.lead {
+    font-size: 1.125rem;
+    color: var(--muted-foreground);
+    margin-bottom: 1.5rem;
+}
+
+/* -------------------------------------------------------------
+   Mobile — nav on top, collapsible
+   ------------------------------------------------------------- */
 @media (max-width: 768px) {
     body {
-        grid-template-columns: 1fr; /* Stack vertically on mobile */
-        grid-template-rows: auto 1fr;
-        height: auto;
+        display: block;
     }
-    
+
     #navbar {
-        order: 2; /* Move nav below main content on mobile */
+        position: static;
+        height: auto;
         border-right: none;
-        border-top: 1px solid #dee2e6;
-        padding: 15px;
+        border-bottom: 1px solid var(--border);
+        padding: 1rem;
     }
-    
+
+    #navbar header {
+        margin-bottom: 0.5rem;
+    }
+
+    .nav-group {
+        border: none;
+    }
+
+    .nav-group summary {
+        display: flex;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 0.875rem;
+        padding: 0.5rem 1rem;
+        background-color: var(--accent);
+        border-radius: var(--radius);
+        margin-bottom: 0.25rem;
+        color: var(--foreground);
+        list-style: none;
+    }
+
+    .nav-group summary::-webkit-details-marker {
+        display: none;
+    }
+
     #main-doc {
-        order: 1; /* Main content first on mobile */
-        padding: 15px;
+        height: auto;
+        padding: 1.5rem 1rem 3rem;
+    }
+
+    .content-wrapper {
+        max-width: 100%;
+    }
+
+    pre code {
+        font-size: 0.8125rem;
+    }
+
+    h1 {
+        font-size: 1.625em;
+    }
+
+    h2 {
+        font-size: 1.3125em;
     }
 }

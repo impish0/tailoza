@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contributing - Tailoza Docs</title>
+    <link rel="stylesheet" href="../tailoza/assets/style.css" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <nav id="navbar">
+      <header><a href="./index.html">Tailoza Docs</a></header>
+      <details class="nav-group" open>
+        <summary>Menu</summary>
+        <a class="nav-link" href="./index.html">Getting Started</a>
+        <a class="nav-link" href="./writing-posts.html">Writing Posts</a>
+        <a class="nav-link" href="./configuration.html">Configuration</a>
+        <a class="nav-link" href="./architecture.html">Architecture</a>
+        <a class="nav-link" href="./reference.html">Reference</a>
+        <a class="nav-link active" href="./contributing.html">Contributing</a>
+      </details>
+    </nav>
+
+    <main id="main-doc">
+      <div class="content-wrapper">
+
+        <h1>Contributing</h1>
+
+        <p class="lead">Tailoza is open source. If you want to contribute, here's how the project is organized so you don't go in blind.</p>
+
+        <h2>Running the Tests</h2>
+
+        <pre><code># Run all tests
+python -m unittest tests/test_templates.py
+
+# Run a specific test class
+python -m unittest tests.test_templates.TestGeneratePaginationHtml
+
+# Run a specific test method
+python -m unittest tests.test_templates.TestGeneratePaginationHtml.test_single_page_returns_empty</code></pre>
+
+        <p>Tests currently cover the pagination logic in <code>templates.py</code> — URL building, page links, nav buttons, ellipsis handling, edge cases.</p>
+
+        <h2>Key Rules</h2>
+
+        <ul>
+          <li>Zero external dependencies. Python stdlib only. Don't add pip packages.</li>
+          <li>All core code lives in <code>tailoza/</code> — that folder should be replaceable without breaking user content.</li>
+          <li>Posts output as <code>output/[slug]/index.html</code> for clean URLs.</li>
+          <li>Draft posts (prefixed with <code>_</code>) must always be skipped.</li>
+        </ul>
+
+      </div>
+    </main>
+  </body>
+</html>

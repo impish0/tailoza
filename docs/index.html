@@ -3,436 +3,58 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tailoza Documentation</title>
-    <link rel="stylesheet" href="./styles.css">
+    <title>Getting Started - Tailoza Docs</title>
+    <link rel="stylesheet" href="../tailoza/assets/style.css" />
+    <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
     <nav id="navbar">
-      <header>Tailoza Docs</header>
-      <a class="nav-link" href="#getting_started">Getting Started</a>
-      <a class="nav-link" href="#markdown_syntax">Markdown Syntax</a>
-      <a class="nav-link" href="#frontmatter">Frontmatter</a>
-      <a class="nav-link" href="#configuration">Configuration</a>
-      <a class="nav-link" href="#project_structure">Project Structure</a>
-      <a class="nav-link" href="#dev_server">Dev Server</a>
-      <a class="nav-link" href="#themes">Themes</a>
-      <a class="nav-link" href="#auto_categorization">Auto Categorization</a>
-      <a class="nav-link" href="#contributing">Contributing</a>
-      <a class="nav-link" href="#build_pipeline">Build Pipeline</a>
-      <a class="nav-link" href="#core_modules">Core Modules</a>
+      <header><a href="./index.html">Tailoza Docs</a></header>
+      <details class="nav-group" open>
+        <summary>Menu</summary>
+        <a class="nav-link active" href="./index.html">Getting Started</a>
+        <a class="nav-link" href="./writing-posts.html">Writing Posts</a>
+        <a class="nav-link" href="./configuration.html">Configuration</a>
+        <a class="nav-link" href="./architecture.html">Architecture</a>
+        <a class="nav-link" href="./reference.html">Reference</a>
+        <a class="nav-link" href="./contributing.html">Contributing</a>
+      </details>
     </nav>
 
-  <main id="main-doc">
+    <main id="main-doc">
+      <div class="content-wrapper">
 
-    <section id="getting_started" class="main-section">
-      <header>Getting Started</header>
+        <h1>Getting Started</h1>
 
-      <p>Tailoza is yet another (sigh...) "markdown native static site generator created for your freedom".</p>
+        <p class="lead">Tailoza is yet another (sigh...) "markdown native static site generator created for your freedom".</p>
 
-      <p>Write when and where you like writing, (in markdown) then post when and where you feel like it.</p>
+        <p>Write when and where you like writing, (in markdown) then post when and where you feel like it.</p>
 
-      <p>Write your markdown in: <a href="https://drive.google.com">Google Drive</a>, <a href="https://www.vim.org/">Vim</a>, <a href="https://obsidian.md/">Obsidian</a> or whatever tickles your fancy, then post on a beautiful canvas.</p>
+        <p>Write your markdown in: <a href="https://drive.google.com">Google Drive</a>, <a href="https://www.vim.org/">Vim</a>, <a href="https://obsidian.md/">Obsidian</a> or whatever tickles your fancy, then post on a beautiful canvas.</p>
 
-      <img class="image-style" src="./assets/tailoze_intro.jpeg" alt="Tailoza Intro">
+        <img class="image-style" src="./assets/tailoze_intro.jpeg" alt="Tailoza Intro" />
 
-      <p>Tailoza has zero external dependencies. Python3 stdlib only.</p>
+        <p>Tailoza has zero external dependencies. Python 3 stdlib only.</p>
 
-      <p><strong>Grab a copy</strong></p>
+        <h2>Grab a copy</h2>
 
-      <code>git clone https://github.com/impish0/tailoza.git
+        <pre><code>git clone https://github.com/impish0/tailoza.git
 cd tailoza
-rm -rf .git</code>
+rm -rf .git</code></pre>
 
-      <p><strong>Build your site</strong></p>
+        <h2>Build your site</h2>
 
-      <code>python build.py</code>
+        <pre><code>python build.py</code></pre>
 
-      <p>That spits out a fully static site into the <span class="inline-code">output/</span> folder.</p>
+        <p>That spits out a fully static site into the <code>output/</code> folder.</p>
 
-      <p><strong>Run it locally</strong></p>
+        <h2>Run it locally</h2>
 
-      <code>python3 serve.py
-or ./serve.py ← If python is in your path</code>
+        <pre><code>python3 serve.py</code></pre>
 
-      <p>This builds, watches for changes, and serves at <span class="inline-code">localhost:8000</span>. Edit a post, save it, refresh your browser. That's the whole workflow.</p>
-    </section>
+        <p>This builds, watches for changes, and serves at <code>localhost:8000</code>. Edit a post, save it, refresh your browser. That's the whole workflow.</p>
 
-    <section id="markdown_syntax" class="main-section">
-      <header>Markdown Syntax</header>
-
-      <p>Tailoza supports full Obsidian-compatible markdown syntax. Write in Obsidian (or wherever), drop the file in <span class="inline-code">posts/</span>, and build with <span class="inline-code">python3 build.py</span>.</p>
-
-      <p><strong>Text formatting</strong></p>
-
-      <code>**bold**
-*italic*
-***bold and italic***
-~~strikethrough~~
-`inline code`</code>
-
-      <p><strong>Headings</strong></p>
-
-      <code># H1
-## H2
-### H3
-#### H4
-##### H5
-###### H6</code>
-
-      <p><strong>Lists</strong></p>
-
-      <code>Unordered:
-- First item
-- Second item
-- Third item
-
-Ordered:
-1. Step one
-2. Step two
-3. Step three
-
-Task lists:
-- [x] Done thing
-- [ ] Not done thing</code>
-
-      <p><strong>Code blocks</strong></p>
-
-      <p>Fenced code blocks with syntax highlighting (powered by Prism.js):</p>
-
-      <code>```javascript
-const greet = (name) =&gt; {
-console.log(`Hello, ${name}!`);
-};
-```</code>
-
-      <p><strong>Blockquotes</strong></p>
-
-      <code>&gt; "Some wise thing someone said once."</code>
-
-      <p><strong>Tables</strong></p>
-
-      <code>| Feature   | Supported |
-|-----------|-----------|
-| Markdown  | Yes       |
-| RSS Feed  | Yes       |
-| Search    | Yes       |</code>
-
-      <p><strong>Images</strong></p>
-
-      <p>Drop images in the <span class="inline-code">images/</span> folder and reference them:</p>
-
-      <code>![Alt text](my-image.jpg)</code>
-
-      <div class="note">note: images can just be referenced by name - no need to include the path.</div>
-
-      <p><strong>Links</strong></p>
-
-      <code>[Link text](https://example.com)</code>
-
-      <p><strong>Horizontal rules</strong></p>
-
-      <code>---</code>
-
-      <p><strong>Download links</strong></p>
-
-      <p>Links to downloadable files (.pdf, .zip, .doc, etc.) automatically get a download arrow ⬇ appended:</p>
-
-      <code>[Get the report](report.pdf)</code>
-
-      <p><strong>Nested blockquotes</strong></p>
-
-      <code>> Outer quote
->> Nested quote</code>
-
-      <p><strong>Nested lists</strong></p>
-
-      <p>Indent with 2 spaces for nesting. Works with both ordered and unordered lists:</p>
-
-      <code>- Top level
-- Nested item
-  - Even deeper
-1. First
-  1. Sub-item</code>
-    </section>
-
-    <section id="frontmatter" class="main-section">
-      <header>Frontmatter</header>
-
-      <p>Every post starts with a frontmatter block - a chunk of metadata between <span class="inline-code">---</span> fences at the top of your markdown file.</p>
-
-      <code>---
-title: My Cool Post
-date: 2025-01-15
-description: A short blurb about this post.
-author: Your Name
-categories: Technology, Tutorial
-keywords: python, static site, blog
-image: my-cover.jpg
-toc: true
----
-
-Your content starts here...</code>
-
-      <p><strong>Required fields</strong></p>
-
-      <ul>
-        <li><span class="inline-code">title</span> - the post title</li>
-        <li><span class="inline-code">date</span> - publish date in YYYY-MM-DD format</li>
-      </ul>
-
-      <p><strong>Optional fields</strong></p>
-
-      <ul>
-        <li><span class="inline-code">description</span> - used for SEO meta tags and the post list preview</li>
-        <li><span class="inline-code">author</span> - overrides the default author from config</li>
-        <li><span class="inline-code">categories</span> - comma-separated list (e.g. "Tech, Tutorial")</li>
-        <li><span class="inline-code">keywords</span> - SEO keywords</li>
-        <li><span class="inline-code">image</span> - cover image filename (from images/ folder)</li>
-        <li><span class="inline-code">toc</span> - set to <span class="inline-code">true</span> to show a table of contents</li>
-      </ul>
-
-      <p><strong>Draft posts</strong></p>
-
-      <p>Prefix your filename with an underscore and it gets skipped during build. Simple as that.</p>
-
-      <code>posts/_my-draft-post.md   ← skipped
-posts/my-published-post.md  ← built</code>
-    </section>
-
-    <section id="configuration" class="main-section">
-      <header>Configuration</header>
-
-      <p>Everything lives in <span class="inline-code">config.json</span> at the project root. Here's the full picture:</p>
-
-      <code>{
-"site_title": "My Blog",
-"site_url": "https://example.com",
-"site_description": "A minimal blog about things that matter.",
-"author": "Your Name",
-"footer_text": "Built with Tailoza",
-"theme": "dark",
-"posts_per_page": 20,
-"timezone": "+0000",
-"post_url_prefix": "/",
-"rss_full_content": true
-}</code>
-
-      <p><strong>Required</strong></p>
-
-      <ul>
-        <li><span class="inline-code">site_title</span> - your site's name</li>
-        <li><span class="inline-code">site_url</span> - full URL, must start with http:// or https://</li>
-        <li><span class="inline-code">site_description</span> - used in RSS feed and meta tags</li>
-      </ul>
-
-      <p><strong>Optional</strong></p>
-
-      <ul>
-        <li><span class="inline-code">author</span> - default author for posts (default: "Your Name")</li>
-        <li><span class="inline-code">footer_text</span> - footer content, supports safe HTML links</li>
-        <li><span class="inline-code">theme</span> - "light", "dark", or "sepia"</li>
-        <li><span class="inline-code">posts_per_page</span> - pagination count (default: 20)</li>
-        <li><span class="inline-code">timezone</span> - UTC offset string like "+0000" (default: "+0000")</li>
-        <li><span class="inline-code">post_url_prefix</span> - controls URL structure. Set to "/" for <span class="inline-code">/my-post/</span>, or "/posts" for <span class="inline-code">/posts/my-post/</span></li>
-        <li><span class="inline-code">rss_full_content</span> - true to include full post content in RSS, false for excerpt only</li>
-      </ul>
-    </section>
-
-    <section id="project_structure" class="main-section">
-      <header>Project Structure</header>
-
-      <p>Here's how the repo is laid out. The important bit: the <span class="inline-code">tailoza/</span> folder is the engine, everything else is yours.</p>
-
-      <code>tailoza/
-├── build.py              # Build script (run this)
-├── serve.py              # Dev server script (or this)
-├── config.json           # Your configuration
-│
-├── tailoza/              # Core engine (don't touch unless contributing)
-│   ├── builder.py        # Build orchestration
-│   ├── parser.py         # Markdown → HTML
-│   ├── templates.py      # HTML templates
-│   ├── rss_generator.py  # RSS feed
-│   ├── sitemap_generator.py
-│   ├── categorize.py     # Auto-categorization
-│   ├── utils.py          # Shared utilities
-│   └── assets/           # CSS, JS (prism, search, etc.)
-│
-├── posts/                # Your markdown files go here
-├── images/               # Your images go here
-├── assets/               # Your favicon goes here
-└── output/               # Generated site (don't edit)</code>
-
-      <p><strong>Updating Tailoza</strong></p>
-
-      <p>To update to a new version, just replace the <span class="inline-code">tailoza/</span> folder with the new one. Your content (<span class="inline-code">posts/</span>, <span class="inline-code">images/</span>, <span class="inline-code">config.json</span>) stays untouched. That's the whole point of the separation.</p>
-    </section>
-
-    <section id="dev_server" class="main-section">
-      <header>Dev Server</header>
-
-      <code>python serve.py</code>
-
-      <p>Builds the site on startup, then watches for changes every second. It monitors:</p>
-
-      <ul>
-        <li><span class="inline-code">posts/</span> - your markdown content</li>
-        <li><span class="inline-code">images/</span> - your images</li>
-        <li><span class="inline-code">tailoza/</span> - core engine + assets</li>
-        <li><span class="inline-code">config.json</span>, <span class="inline-code">build.py</span>, <span class="inline-code">serve.py</span></li>
-      </ul>
-
-      <p>Save a file, it rebuilds. Refresh your browser. That's it.</p>
-
-      <p>Serves at <span class="inline-code">http://localhost:8000</span> with custom 404 handling. Hidden files and temp files (ending in <span class="inline-code">~</span>) are ignored.</p>
-    </section>
-
-    <section id="themes" class="main-section">
-      <header>Themes</header>
-
-      <p>Tailoza ships with three themes: <strong>light</strong>, <strong>dark</strong>, and <strong>sepia</strong>.</p>
-
-      <p>Set it in <span class="inline-code">config.json</span>:</p>
-
-      <code>"theme": "dark"</code>
-
-      <p>Under the hood, themes work via CSS custom properties and a <span class="inline-code">data-theme</span> attribute on the <span class="inline-code">&lt;html&gt;</span> element. The whole color system is defined with <span class="inline-code">oklch()</span> values - shadcn violet palette.</p>
-
-      <p>If you want to customize colors, the variables are all in <span class="inline-code">tailoza/assets/style.css</span>. The main ones:</p>
-
-      <ul>
-        <li><span class="inline-code">--background</span> / <span class="inline-code">--foreground</span> - page bg and text</li>
-        <li><span class="inline-code">--primary</span> - links, accents</li>
-        <li><span class="inline-code">--card</span> - card backgrounds</li>
-        <li><span class="inline-code">--muted</span> - code blocks, subtle backgrounds</li>
-        <li><span class="inline-code">--border</span> - all borders</li>
-      </ul>
-    </section>
-
-    <section id="auto_categorization" class="main-section">
-      <header>Auto Categorization</header>
-
-      <p>If you don't set categories in your frontmatter, Tailoza will take a guess for you. It scans your post content and matches against keyword rules.</p>
-
-      <p><strong>Default categories:</strong></p>
-
-      <ul>
-        <li>Business</li>
-        <li>Technology</li>
-        <li>Marketing</li>
-        <li>Development</li>
-        <li>Design</li>
-        <li>Personal</li>
-        <li>Tutorial</li>
-        <li>News</li>
-      </ul>
-
-      <p>Each one has a set of keywords it looks for. "code", "programming", "python" → Development. "design", "ui", "color" → Design. You get the idea.</p>
-
-      <p><strong>Custom rules</strong></p>
-
-      <p>Create a <span class="inline-code">category_rules.json</span> at the project root to override:</p>
-
-      <code>{
-"Recipes": ["cook", "bake", "ingredient", "recipe"],
-"Travel": ["trip", "destination", "flight", "hotel"]
-}</code>
-    </section>
-
-    <section id="contributing" class="main-section">
-      <header>Contributing</header>
-
-      <p>Tailoza is open source. If you want to contribute, here's how the project is organized so you don't go in blind.</p>
-
-      <p><strong>Running the tests</strong></p>
-
-      <code># Run all tests
-python -m unittest tests/test_templates.
-
-# Run a specific test class
-python -m unittest tests.test_templates.TestGeneratePaginationHt
-
-# Run a specific test method
-python -m unittest tests.test_templates.TestGeneratePaginationHtml.test_single_page_returns_empty</code>
-
-      <p>Tests currently cover the pagination logic in <span class="inline-code">templates.py</span> - URL building, page links, nav buttons, ellipsis handling, edge cases.</p>
-
-      <p><strong>Key rules</strong></p>
-
-      <ul>
-        <li>Zero external dependencies. Python stdlib only. Don't add pip packages.</li>
-        <li>All core code lives in <span class="inline-code">tailoza/</span> - that folder should be replaceable without breaking user content.</li>
-        <li>Posts output as <span class="inline-code">output/[slug]/index.html</span> for clean URLs.</li>
-        <li>Draft posts (prefixed with <span class="inline-code">_</span>) must always be skipped.</li>
-      </ul>
-    </section>
-
-    <section id="build_pipeline" class="main-section">
-      <header>Build Pipeline</header>
-
-      <p>Here's what happens when you run <span class="inline-code">python build.py</span>:</p>
-
-      <ol>
-        <li>Loads and validates <span class="inline-code">config.json</span></li>
-        <li>Parses all markdown files in <span class="inline-code">posts/</span> (skips <span class="inline-code">_prefixed</span> drafts)</li>
-        <li>Auto-categorizes any posts missing categories</li>
-        <li>Generates HTML for each post with prev/next navigation</li>
-        <li>Creates paginated index pages and category archive pages</li>
-        <li>Generates RSS feed, sitemap, search index, and 404 page</li>
-        <li>Copies all assets to <span class="inline-code">output/</span></li>
-      </ol>
-
-      <p><strong>Output structure</strong></p>
-
-      <code>output/
-├── index.html            # Homepage
-├── page/2/index.html     # Paginated pages
-├── [slug]/index.html     # Individual posts
-├── categories/[cat]/     # Category pages
-├── rss.xml               # RSS feed
-├── sitemap.xml           # For search engines
-├── search-index.json     # Client-side search data
-├── 404.html              # Custom error page
-└── assets/               # CSS, JS</code>
-    </section>
-
-    <section id="core_modules" class="main-section">
-      <header>Core Modules</header>
-
-      <p>For the folks who want to dig into the engine. Everything lives in <span class="inline-code">tailoza/</span>.</p>
-
-      <p><strong>builder.py</strong> - the orchestrator</p>
-      <ul>
-        <li><span class="inline-code">build_site()</span> - main build function, ties everything together</li>
-        <li><span class="inline-code">load_config()</span> - loads and validates config.json with defaults</li>
-        <li><span class="inline-code">generate_search_index()</span> - builds client-side search JSON</li>
-        <li><span class="inline-code">calculate_reading_time()</span> - reading time estimation</li>
-      </ul>
-
-      <p><strong>parser.py</strong> - markdown to HTML</p>
-      <ul>
-        <li><span class="inline-code">parse_frontmatter()</span> - extracts metadata from the <span class="inline-code">---</span> block</li>
-        <li><span class="inline-code">markdown_to_html()</span> - the custom converter (headers, lists, tables, code blocks, the whole thing)</li>
-        <li><span class="inline-code">extract_headings()</span> / <span class="inline-code">generate_toc()</span> - table of contents</li>
-      </ul>
-
-      <p><strong>templates.py</strong> - HTML generation</p>
-      <ul>
-        <li><span class="inline-code">post_template()</span> - individual post pages with SEO, structured data</li>
-        <li><span class="inline-code">index_template()</span> - homepage with post list, categories dropdown, search</li>
-        <li><span class="inline-code">category_template()</span> - category archive pages</li>
-        <li><span class="inline-code">generate_pagination_html()</span> - pagination nav with ellipsis</li>
-      </ul>
-
-      <p><strong>rss_generator.py</strong> - RSS feed via ElementTree</p>
-
-      <p><strong>sitemap_generator.py</strong> - XML sitemap for SEO</p>
-
-      <p><strong>categorize.py</strong> - auto-categorization via keyword matching</p>
-
-      <p><strong>utils.py</strong> - shared helpers (<span class="inline-code">category_slug()</span>, <span class="inline-code">copy_asset()</span>, <span class="inline-code">favicon_link()</span>)</p>
-    </section>
-
-  </main>
+      </div>
+    </main>
   </body>
 </html>

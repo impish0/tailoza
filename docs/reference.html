@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reference - Tailoza Docs</title>
+    <link rel="stylesheet" href="../tailoza/assets/style.css" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <nav id="navbar">
+      <header><a href="./index.html">Tailoza Docs</a></header>
+      <details class="nav-group" open>
+        <summary>Menu</summary>
+        <a class="nav-link" href="./index.html">Getting Started</a>
+        <a class="nav-link" href="./writing-posts.html">Writing Posts</a>
+        <a class="nav-link" href="./configuration.html">Configuration</a>
+        <a class="nav-link" href="./architecture.html">Architecture</a>
+        <a class="nav-link active" href="./reference.html">Reference</a>
+        <a class="nav-link" href="./contributing.html">Contributing</a>
+      </details>
+    </nav>
+
+    <main id="main-doc">
+      <div class="content-wrapper">
+
+        <h1>Core Modules Reference</h1>
+
+        <p class="lead">For the folks who want to dig into the engine. Everything lives in <code>tailoza/</code>.</p>
+
+        <details open>
+          <summary>builder.py — the orchestrator</summary>
+          <ul>
+            <li><code>build_site()</code> — main build function, ties everything together</li>
+            <li><code>load_config()</code> — loads and validates config.json with defaults</li>
+            <li><code>generate_search_index()</code> — builds client-side search JSON</li>
+            <li><code>calculate_reading_time()</code> — reading time estimation</li>
+          </ul>
+        </details>
+
+        <details open>
+          <summary>parser.py — markdown to HTML</summary>
+          <ul>
+            <li><code>parse_frontmatter()</code> — extracts metadata from the <code>---</code> block</li>
+            <li><code>markdown_to_html()</code> — the custom converter (headers, lists, tables, code blocks, the whole thing)</li>
+            <li><code>extract_headings()</code> / <code>generate_toc()</code> — table of contents</li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>templates.py — HTML generation</summary>
+          <ul>
+            <li><code>post_template()</code> — individual post pages with SEO, structured data</li>
+            <li><code>index_template()</code> — homepage with post list, categories dropdown, search</li>
+            <li><code>category_template()</code> — category archive pages</li>
+            <li><code>generate_pagination_html()</code> — pagination nav with ellipsis</li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>rss_generator.py — RSS feed</summary>
+          <p>RSS feed generation via Python's built-in ElementTree. Outputs <code>rss.xml</code> with configurable full-content or excerpt-only entries.</p>
+        </details>
+
+        <details>
+          <summary>sitemap_generator.py — XML sitemap</summary>
+          <p>Generates <code>sitemap.xml</code> for search engine indexing. Includes all posts, category pages, and the homepage.</p>
+        </details>
+
+        <details>
+          <summary>categorize.py — auto-categorization</summary>
+          <p>Analyzes post content via keyword matching to suggest categories for posts that don't have them set in frontmatter. Uses configurable rules from <code>category_rules.json</code> or built-in defaults.</p>
+        </details>
+
+        <details>
+          <summary>utils.py — shared helpers</summary>
+          <ul>
+            <li><code>category_slug()</code> — converts category names to URL-safe slugs</li>
+            <li><code>copy_asset()</code> — copies files to the output directory</li>
+            <li><code>favicon_link()</code> — generates favicon HTML if one exists</li>
+          </ul>
+        </details>
+
+      </div>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Configuration - Tailoza Docs</title>
+    <link rel="stylesheet" href="../tailoza/assets/style.css" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <nav id="navbar">
+      <header><a href="./index.html">Tailoza Docs</a></header>
+      <details class="nav-group" open>
+        <summary>Menu</summary>
+        <a class="nav-link" href="./index.html">Getting Started</a>
+        <a class="nav-link" href="./writing-posts.html">Writing Posts</a>
+        <a class="nav-link active" href="./configuration.html">Configuration</a>
+        <a class="nav-link" href="./architecture.html">Architecture</a>
+        <a class="nav-link" href="./reference.html">Reference</a>
+        <a class="nav-link" href="./contributing.html">Contributing</a>
+      </details>
+    </nav>
+
+    <main id="main-doc">
+      <div class="content-wrapper">
+
+        <h1>Configuration</h1>
+
+        <p class="lead">Everything lives in <code>config.json</code> at the project root.</p>
+
+        <details open>
+          <summary>Full config.json Example</summary>
+          <pre><code>{
+  "site_title": "My Blog",
+  "site_url": "https://example.com",
+  "site_description": "A minimal blog about things that matter.",
+  "author": "Your Name",
+  "footer_text": "Built with Tailoza",
+  "theme": "dark",
+  "posts_per_page": 20,
+  "timezone": "+0000",
+  "post_url_prefix": "/",
+  "rss_full_content": true
+}</code></pre>
+        </details>
+
+        <details open>
+          <summary>Required Settings</summary>
+          <ul>
+            <li><code>site_title</code> — your site's name</li>
+            <li><code>site_url</code> — full URL, must start with <code>http://</code> or <code>https://</code></li>
+            <li><code>site_description</code> — used in RSS feed and meta tags</li>
+          </ul>
+        </details>
+
+        <details>
+          <summary>Optional Settings</summary>
+          <ul>
+            <li><code>author</code> — default author for posts (default: "Your Name")</li>
+            <li><code>footer_text</code> — footer content, supports safe HTML links</li>
+            <li><code>theme</code> — "light", "dark", "sepia", "nord", or "forest"</li>
+            <li><code>posts_per_page</code> — pagination count (default: 20)</li>
+            <li><code>timezone</code> — UTC offset string like "+0000" (default: "+0000")</li>
+            <li><code>post_url_prefix</code> — controls URL structure. Set to <code>/</code> for <code>/my-post/</code>, or <code>/posts</code> for <code>/posts/my-post/</code></li>
+            <li><code>rss_full_content</code> — <code>true</code> to include full post content in RSS, <code>false</code> for excerpt only</li>
+          </ul>
+        </details>
+
+        <h2>Themes</h2>
+
+        <p>Tailoza ships with five themes: <strong>light</strong>, <strong>dark</strong>, <strong>sepia</strong>, <strong>nord</strong>, and <strong>forest</strong>.</p>
+
+        <p>Set it in <code>config.json</code>:</p>
+
+        <pre><code>"theme": "dark"</code></pre>
+
+        <p>Under the hood, themes work via CSS custom properties and a <code>data-theme</code> attribute on the <code>&lt;html&gt;</code> element. The whole color system uses the shadcn violet palette.</p>
+
+        <p>If you want to customize colors, the variables are all in <code>tailoza/assets/style.css</code>. The main ones:</p>
+
+        <ul>
+          <li><code>--background</code> / <code>--foreground</code> — page background and text</li>
+          <li><code>--primary</code> — links, accents</li>
+          <li><code>--card</code> — card backgrounds</li>
+          <li><code>--muted</code> — code blocks, subtle backgrounds</li>
+          <li><code>--border</code> — all borders</li>
+        </ul>
+
+        <h2>Auto Categorization</h2>
+
+        <p>If you don't set categories in your frontmatter, Tailoza will take a guess for you. It scans your post content and matches against keyword rules.</p>
+
+        <details open>
+          <summary>Default Categories</summary>
+          <ul>
+            <li>Business</li>
+            <li>Technology</li>
+            <li>Marketing</li>
+            <li>Development</li>
+            <li>Design</li>
+            <li>Personal</li>
+            <li>Tutorial</li>
+            <li>News</li>
+          </ul>
+          <p>Each one has a set of keywords it looks for. "code", "programming", "python" → Development. "design", "ui", "color" → Design. You get the idea.</p>
+        </details>
+
+        <details>
+          <summary>Custom Rules</summary>
+          <p>Create a <code>category_rules.json</code> at the project root to override:</p>
+          <pre><code>{
+  "Recipes": ["cook", "bake", "ingredient", "recipe"],
+  "Travel": ["trip", "destination", "flight", "hotel"]
+}</code></pre>
+        </details>
+
+      </div>
+    </main>
+  </body>
+</html>

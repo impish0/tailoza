@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Architecture - Tailoza Docs</title>
+    <link rel="stylesheet" href="../tailoza/assets/style.css" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <nav id="navbar">
+      <header><a href="./index.html">Tailoza Docs</a></header>
+      <details class="nav-group" open>
+        <summary>Menu</summary>
+        <a class="nav-link" href="./index.html">Getting Started</a>
+        <a class="nav-link" href="./writing-posts.html">Writing Posts</a>
+        <a class="nav-link" href="./configuration.html">Configuration</a>
+        <a class="nav-link active" href="./architecture.html">Architecture</a>
+        <a class="nav-link" href="./reference.html">Reference</a>
+        <a class="nav-link" href="./contributing.html">Contributing</a>
+      </details>
+    </nav>
+
+    <main id="main-doc">
+      <div class="content-wrapper">
+
+        <h1>Architecture</h1>
+
+        <p class="lead">How the repo is laid out, how the build works, and how the dev server keeps things in sync.</p>
+
+        <h2>Project Structure</h2>
+
+        <p>The <code>tailoza/</code> folder is the engine, everything else is yours.</p>
+
+        <pre><code>tailoza/
+├── build.py              # Build script (run this)
+├── serve.py              # Dev server script (or this)
+├── config.json           # Your configuration
+│
+├── tailoza/              # Core engine (don't touch unless contributing)
+│   ├── builder.py        # Build orchestration
+│   ├── parser.py         # Markdown → HTML
+│   ├── templates.py      # HTML templates
+│   ├── rss_generator.py  # RSS feed
+│   ├── sitemap_generator.py
+│   ├── categorize.py     # Auto-categorization
+│   ├── utils.py          # Shared utilities
+│   └── assets/           # CSS, JS (prism, search, etc.)
+│
+├── posts/                # Your markdown files go here
+├── images/               # Your images go here
+├── assets/               # Your favicon goes here
+└── output/               # Generated site (don't edit)</code></pre>
+
+        <details>
+          <summary>Updating Tailoza</summary>
+          <p>To update to a new version, just replace the <code>tailoza/</code> folder with the new one. Your content (<code>posts/</code>, <code>images/</code>, <code>config.json</code>) stays untouched. That's the whole point of the separation.</p>
+        </details>
+
+        <h2>Dev Server</h2>
+
+        <pre><code>python serve.py</code></pre>
+
+        <p>Builds the site on startup, then watches for changes every second. It monitors:</p>
+
+        <ul>
+          <li><code>posts/</code> — your markdown content</li>
+          <li><code>images/</code> — your images</li>
+          <li><code>tailoza/</code> — core engine + assets</li>
+          <li><code>config.json</code>, <code>build.py</code>, <code>serve.py</code></li>
+        </ul>
+
+        <p>Save a file, it rebuilds. Refresh your browser. That's it.</p>
+
+        <p>Serves at <code>http://localhost:8000</code> with custom 404 handling. Hidden files and temp files (ending in <code>~</code>) are ignored.</p>
+
+        <h2>Build Pipeline</h2>
+
+        <p>Here's what happens when you run <code>python build.py</code>:</p>
+
+        <ol>
+          <li>Loads and validates <code>config.json</code></li>
+          <li>Parses all markdown files in <code>posts/</code> (skips <code>_prefixed</code> drafts)</li>
+          <li>Auto-categorizes any posts missing categories</li>
+          <li>Generates HTML for each post with prev/next navigation</li>
+          <li>Creates paginated index pages and category archive pages</li>
+          <li>Generates RSS feed, sitemap, search index, and 404 page</li>
+          <li>Copies all assets to <code>output/</code></li>
+        </ol>
+
+        <details open>
+          <summary>Output Structure</summary>
+          <pre><code>output/
+├── index.html            # Homepage
+├── page/2/index.html     # Paginated pages
+├── [slug]/index.html     # Individual posts
+├── categories/[cat]/     # Category pages
+├── rss.xml               # RSS feed
+├── sitemap.xml           # For search engines
+├── search-index.json     # Client-side search data
+├── 404.html              # Custom error page
+└── assets/               # CSS, JS</code></pre>
+        </details>
+
+      </div>
+    </main>
+  </body>
+</html>
