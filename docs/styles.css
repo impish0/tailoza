@@ -24,6 +24,7 @@
     --border: oklch(0.92 0.004 286.32);
     --input: oklch(0.92 0.004 286.32);
     --ring: oklch(0.606 0.25 292.717);
+    --note: oklch(0.6 0.2 240 / 0.5);
 }
 
 body {
@@ -113,6 +114,21 @@ a {
 code {
     display: block;
     background-color: var(--muted);
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: calc(var(--radius) - 0.25rem);
+    font-family: 'Courier New', monospace;
+    border: 1px solid var(--border);
+    color: var(--card-foreground);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    white-space: pre;
+    overflow-x: auto;
+}
+
+.note {
+    display: block;
+    background-color: var(--note);
     padding: 15px;
     margin: 15px 0;
     border-radius: calc(var(--radius) - 0.25rem);

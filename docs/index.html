@@ -29,28 +29,30 @@
 
       <p>Tailoza is yet another (sigh...) "markdown native static site generator created for your freedom".</p>
 
-      <p>Write when and where you like writing, (in markdown...) then post when and where you feel like it.</p>
+      <p>Write when and where you like writing, (in markdown) then post when and where you feel like it.</p>
 
       <p>Write your markdown in: <a href="https://drive.google.com">Google Drive</a>, <a href="https://www.vim.org/">Vim</a>, <a href="https://obsidian.md/">Obsidian</a> or whatever tickles your fancy, then post on a beautiful canvas.</p>
 
       <img class="image-style" src="./assets/tailoze_intro.jpeg" alt="Tailoza Intro">
 
-      <p>Zero external dependencies. Python stdlib only. No npm, no bundlers, no nonsense.</p>
+      <p>Tailoza has zero external dependencies. Python3 stdlib only.</p>
 
       <p><strong>Grab a copy</strong></p>
 
       <code>git clone https://github.com/impish0/tailoza.git
-cd tailoza</code>
+cd tailoza
+rm -rf .git</code>
 
       <p><strong>Build your site</strong></p>
 
       <code>python build.py</code>
 
-      <p>That spits out a fully static site into the <span class="inline-code">output/</span> folder. Done.</p>
+      <p>That spits out a fully static site into the <span class="inline-code">output/</span> folder.</p>
 
       <p><strong>Run it locally</strong></p>
 
-      <code>python serve.py</code>
+      <code>python3 serve.py
+or ./serve.py ← If python is in your path</code>
 
       <p>This builds, watches for changes, and serves at <span class="inline-code">localhost:8000</span>. Edit a post, save it, refresh your browser. That's the whole workflow.</p>
     </section>
@@ -58,7 +60,7 @@ cd tailoza</code>
     <section id="markdown_syntax" class="main-section">
       <header>Markdown Syntax</header>
 
-      <p>Tailoza supports full Obsidian-compatible markdown syntax. Write in Obsidian (or wherever), drop the file in <span class="inline-code">posts/</span>, build. No weird extensions, no custom flavors - just markdown that works.</p>
+      <p>Tailoza supports full Obsidian-compatible markdown syntax. Write in Obsidian (or wherever), drop the file in <span class="inline-code">posts/</span>, and build with <span class="inline-code">python3 build.py</span>.</p>
 
       <p><strong>Text formatting</strong></p>
 
@@ -68,7 +70,7 @@ cd tailoza</code>
 ~~strikethrough~~
 `inline code`</code>
 
-      <p><strong>Headers</strong></p>
+      <p><strong>Headings</strong></p>
 
       <code># H1
 ## H2
@@ -120,6 +122,8 @@ console.log(`Hello, ${name}!`);
       <p>Drop images in the <span class="inline-code">images/</span> folder and reference them:</p>
 
       <code>![Alt text](my-image.jpg)</code>
+
+      <div class="note">note: images can just be referenced by name - no need to include the path.</div>
 
       <p><strong>Links</strong></p>
 
