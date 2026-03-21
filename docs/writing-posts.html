@@ -30,28 +30,26 @@
 
         <h2>Markdown Syntax</h2>
 
-        <details open>
-          <summary>Text Formatting</summary>
-          <pre><code>**bold**
+        <h3>Text Formatting</h3>
+
+        <pre><code>**bold**
 *italic*
 ***bold and italic***
 ~~strikethrough~~
 `inline code`</code></pre>
-        </details>
 
-        <details open>
-          <summary>Headings</summary>
-          <pre><code># H1
+        <h3>Headings</h3>
+
+        <pre><code># H1
 ## H2
 ### H3
 #### H4
 ##### H5
 ###### H6</code></pre>
-        </details>
 
-        <details>
-          <summary>Lists</summary>
-          <pre><code>Unordered:
+        <h3>Lists</h3>
+
+        <pre><code>Unordered:
 - First item
 - Second item
 - Third item
@@ -64,75 +62,71 @@ Ordered:
 Task lists:
 - [x] Done thing
 - [ ] Not done thing</code></pre>
-        </details>
 
-        <details>
-          <summary>Code Blocks</summary>
-          <p>Fenced code blocks with syntax highlighting (powered by Prism.js):</p>
-          <pre><code>```javascript
+        <h3>Code Blocks</h3>
+
+        <p>Fenced code blocks with syntax highlighting (powered by Prism.js):</p>
+
+        <pre><code>```javascript
 const greet = (name) =&gt; {
   console.log(`Hello, ${name}!`);
 };
 ```</code></pre>
-        </details>
 
-        <details>
-          <summary>Blockquotes</summary>
-          <pre><code>&gt; "Some wise thing someone said once."</code></pre>
-          <p>Nested blockquotes:</p>
-          <pre><code>&gt; Outer quote
+        <h3>Blockquotes</h3>
+
+        <pre><code>&gt; "Some wise thing someone said once."</code></pre>
+
+        <p>Nested blockquotes:</p>
+
+        <pre><code>&gt; Outer quote
 &gt;&gt; Nested quote</code></pre>
-        </details>
 
-        <details>
-          <summary>Tables</summary>
-          <pre><code>| Feature   | Supported |
+        <h3>Tables</h3>
+
+        <pre><code>| Feature   | Supported |
 |-----------|-----------|
 | Markdown  | Yes       |
 | RSS Feed  | Yes       |
 | Search    | Yes       |</code></pre>
-        </details>
 
-        <details>
-          <summary>Images</summary>
-          <p>Drop images in the <code>images/</code> folder and reference them:</p>
-          <pre><code>![Alt text](my-image.jpg)</code></pre>
-          <div class="note">Note: images can just be referenced by name — no need to include the path.</div>
-        </details>
+        <h3>Images</h3>
 
-        <details>
-          <summary>Links</summary>
-          <pre><code>[Link text](https://example.com)</code></pre>
-        </details>
+        <p>Drop images in the <code>images/</code> folder and reference them:</p>
 
-        <details>
-          <summary>Horizontal Rules</summary>
-          <pre><code>---</code></pre>
-        </details>
+        <pre><code>![Alt text](my-image.jpg)</code></pre>
 
-        <details>
-          <summary>Download Links</summary>
-          <p>Links to downloadable files (.pdf, .zip, .doc, etc.) automatically get a download arrow appended:</p>
-          <pre><code>[Get the report](report.pdf)</code></pre>
-        </details>
+        <p class="note">Images can just be referenced by name — no need to include the path.</p>
 
-        <details>
-          <summary>Nested Lists</summary>
-          <p>Indent with 2 spaces for nesting. Works with both ordered and unordered lists:</p>
-          <pre><code>- Top level
+        <h3>Links</h3>
+
+        <pre><code>[Link text](https://example.com)</code></pre>
+
+        <h3>Horizontal Rules</h3>
+
+        <pre><code>---</code></pre>
+
+        <h3>Download Links</h3>
+
+        <p>Links to downloadable files (.pdf, .zip, .doc, etc.) automatically get a download arrow appended:</p>
+
+        <pre><code>[Get the report](report.pdf)</code></pre>
+
+        <h3>Nested Lists</h3>
+
+        <p>Indent with 2 spaces for nesting. Works with both ordered and unordered lists:</p>
+
+        <pre><code>- Top level
   - Nested item
     - Even deeper
 1. First
   1. Sub-item</code></pre>
-        </details>
 
         <h2>Frontmatter</h2>
 
         <p>Every post starts with a frontmatter block — metadata between <code>---</code> fences at the top of your markdown file.</p>
 
-        <details open>
-          <summary>Full Example</summary>
-          <pre><code>---
+        <pre><code>---
 title: My Cool Post
 date: 2025-01-15
 description: A short blurb about this post.
@@ -144,34 +138,31 @@ toc: true
 ---
 
 Your content starts here...</code></pre>
-        </details>
 
-        <details open>
-          <summary>Required Fields</summary>
-          <ul>
-            <li><code>title</code> — the post title</li>
-            <li><code>date</code> — publish date in YYYY-MM-DD format</li>
-          </ul>
-        </details>
+        <h3>Required Fields</h3>
 
-        <details>
-          <summary>Optional Fields</summary>
-          <ul>
-            <li><code>description</code> — used for SEO meta tags and the post list preview</li>
-            <li><code>author</code> — overrides the default author from config</li>
-            <li><code>categories</code> — comma-separated list (e.g. "Tech, Tutorial")</li>
-            <li><code>keywords</code> — SEO keywords</li>
-            <li><code>image</code> — cover image filename (from <code>images/</code> folder)</li>
-            <li><code>toc</code> — set to <code>true</code> to show a table of contents</li>
-          </ul>
-        </details>
+        <ul>
+          <li><code>title</code> — the post title</li>
+          <li><code>date</code> — publish date in YYYY-MM-DD format</li>
+        </ul>
 
-        <details>
-          <summary>Draft Posts</summary>
-          <p>Prefix your filename with an underscore and it gets skipped during build. Simple as that.</p>
-          <pre><code>posts/_my-draft-post.md   ← skipped
+        <h3>Optional Fields</h3>
+
+        <ul>
+          <li><code>description</code> — used for SEO meta tags and the post list preview</li>
+          <li><code>author</code> — overrides the default author from config</li>
+          <li><code>categories</code> — comma-separated list (e.g. "Tech, Tutorial")</li>
+          <li><code>keywords</code> — SEO keywords</li>
+          <li><code>image</code> — cover image filename (from <code>images/</code> folder)</li>
+          <li><code>toc</code> — set to <code>true</code> to show a table of contents</li>
+        </ul>
+
+        <h3>Draft Posts</h3>
+
+        <p>Prefix your filename with an underscore and it gets skipped during build. Simple as that.</p>
+
+        <pre><code>posts/_my-draft-post.md   ← skipped
 posts/my-published-post.md  ← built</code></pre>
-        </details>
 
       </div>
     </main>

@@ -28,58 +28,51 @@
 
         <p class="lead">For the folks who want to dig into the engine. Everything lives in <code>tailoza/</code>.</p>
 
-        <details open>
-          <summary>builder.py — the orchestrator</summary>
-          <ul>
-            <li><code>build_site()</code> — main build function, ties everything together</li>
-            <li><code>load_config()</code> — loads and validates config.json with defaults</li>
-            <li><code>generate_search_index()</code> — builds client-side search JSON</li>
-            <li><code>calculate_reading_time()</code> — reading time estimation</li>
-          </ul>
-        </details>
+        <h3>builder.py — the orchestrator</h3>
 
-        <details open>
-          <summary>parser.py — markdown to HTML</summary>
-          <ul>
-            <li><code>parse_frontmatter()</code> — extracts metadata from the <code>---</code> block</li>
-            <li><code>markdown_to_html()</code> — the custom converter (headers, lists, tables, code blocks, the whole thing)</li>
-            <li><code>extract_headings()</code> / <code>generate_toc()</code> — table of contents</li>
-          </ul>
-        </details>
+        <ul>
+          <li><code>build_site()</code> — main build function, ties everything together</li>
+          <li><code>load_config()</code> — loads and validates config.json with defaults</li>
+          <li><code>generate_search_index()</code> — builds client-side search JSON</li>
+          <li><code>calculate_reading_time()</code> — reading time estimation</li>
+        </ul>
 
-        <details>
-          <summary>templates.py — HTML generation</summary>
-          <ul>
-            <li><code>post_template()</code> — individual post pages with SEO, structured data</li>
-            <li><code>index_template()</code> — homepage with post list, categories dropdown, search</li>
-            <li><code>category_template()</code> — category archive pages</li>
-            <li><code>generate_pagination_html()</code> — pagination nav with ellipsis</li>
-          </ul>
-        </details>
+        <h3>parser.py — markdown to HTML</h3>
 
-        <details>
-          <summary>rss_generator.py — RSS feed</summary>
-          <p>RSS feed generation via Python's built-in ElementTree. Outputs <code>rss.xml</code> with configurable full-content or excerpt-only entries.</p>
-        </details>
+        <ul>
+          <li><code>parse_frontmatter()</code> — extracts metadata from the <code>---</code> block</li>
+          <li><code>markdown_to_html()</code> — the custom converter (headers, lists, tables, code blocks, the whole thing)</li>
+          <li><code>extract_headings()</code> / <code>generate_toc()</code> — table of contents</li>
+        </ul>
 
-        <details>
-          <summary>sitemap_generator.py — XML sitemap</summary>
-          <p>Generates <code>sitemap.xml</code> for search engine indexing. Includes all posts, category pages, and the homepage.</p>
-        </details>
+        <h3>templates.py — HTML generation</h3>
 
-        <details>
-          <summary>categorize.py — auto-categorization</summary>
-          <p>Analyzes post content via keyword matching to suggest categories for posts that don't have them set in frontmatter. Uses configurable rules from <code>category_rules.json</code> or built-in defaults.</p>
-        </details>
+        <ul>
+          <li><code>post_template()</code> — individual post pages with SEO, structured data</li>
+          <li><code>index_template()</code> — homepage with post list, categories dropdown, search</li>
+          <li><code>category_template()</code> — category archive pages</li>
+          <li><code>generate_pagination_html()</code> — pagination nav with ellipsis</li>
+        </ul>
 
-        <details>
-          <summary>utils.py — shared helpers</summary>
-          <ul>
-            <li><code>category_slug()</code> — converts category names to URL-safe slugs</li>
-            <li><code>copy_asset()</code> — copies files to the output directory</li>
-            <li><code>favicon_link()</code> — generates favicon HTML if one exists</li>
-          </ul>
-        </details>
+        <h3>rss_generator.py — RSS feed</h3>
+
+        <p>RSS feed generation via Python's built-in ElementTree. Outputs <code>rss.xml</code> with configurable full-content or excerpt-only entries.</p>
+
+        <h3>sitemap_generator.py — XML sitemap</h3>
+
+        <p>Generates <code>sitemap.xml</code> for search engine indexing. Includes all posts, category pages, and the homepage.</p>
+
+        <h3>categorize.py — auto-categorization</h3>
+
+        <p>Analyzes post content via keyword matching to suggest categories for posts that don't have them set in frontmatter. Uses configurable rules from <code>category_rules.json</code> or built-in defaults.</p>
+
+        <h3>utils.py — shared helpers</h3>
+
+        <ul>
+          <li><code>category_slug()</code> — converts category names to URL-safe slugs</li>
+          <li><code>copy_asset()</code> — copies files to the output directory</li>
+          <li><code>favicon_link()</code> — generates favicon HTML if one exists</li>
+        </ul>
 
       </div>
     </main>
