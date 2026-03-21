@@ -39,13 +39,13 @@ python -m unittest tests.test_templates.TestGeneratePaginationHtml
 # Run a specific test method
 python -m unittest tests.test_templates.TestGeneratePaginationHtml.test_single_page_returns_empty</code></pre>
 
-        <p>Tests currently cover the pagination logic in <code>templates.py</code> — URL building, page links, nav buttons, ellipsis handling, edge cases.</p>
+        <p>Tests currently cover the pagination logic in <code>templates.py</code> - URL building, page links, nav buttons, ellipsis handling, edge cases.</p>
 
         <h2>Key Rules</h2>
 
         <ul>
           <li>Zero external dependencies. Python stdlib only. Don't add pip packages.</li>
-          <li>All core code lives in <code>tailoza/</code> — that folder should be replaceable without breaking user content.</li>
+          <li>All core code lives in <code>tailoza/</code> - that folder should be replaceable without breaking user content.</li>
           <li>Posts output as <code>output/[slug]/index.html</code> for clean URLs.</li>
           <li>Draft posts (prefixed with <code>_</code>) must always be skipped.</li>
         </ul>
