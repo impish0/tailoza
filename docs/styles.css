@@ -63,8 +63,8 @@ body {
 }
 
 .nav-link:hover {
-    color: var(--primary-foreground);
-    background-color: var(--muted);
+    color: var(--accent-foreground);
+    background-color: var(--accent);
 }
 
 /* Main Content Styles */

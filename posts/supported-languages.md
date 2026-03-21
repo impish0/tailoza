@@ -702,14 +702,4 @@ command! Numbers call ToggleNumbers()
 
 ---
 
-## Usage
-
-To use any of these languages in your blog posts, wrap your code in triple backticks followed by the language identifier:
-
-````markdown
-```python
-print("Hello, World!")
-```
-````
-
 The language identifier should match one of the names shown in the headers above (in parentheses where applicable).

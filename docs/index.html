@@ -99,7 +99,7 @@ Task lists:
 
       <code>```javascript
 const greet = (name) =&gt; {
-    console.log(`Hello, ${name}!`);
+console.log(`Hello, ${name}!`);
 };
 ```</code>
 
@@ -110,10 +110,10 @@ const greet = (name) =&gt; {
       <p><strong>Tables</strong></p>
 
       <code>| Feature   | Supported |
-            |-----------|-----------|
-            | Markdown  | Yes       |
-            | RSS Feed  | Yes       |
-            | Search    | Yes       |</code>
+|-----------|-----------|
+| Markdown  | Yes       |
+| RSS Feed  | Yes       |
+| Search    | Yes       |</code>
 
       <p><strong>Images</strong></p>
 
@@ -138,17 +138,17 @@ const greet = (name) =&gt; {
       <p><strong>Nested blockquotes</strong></p>
 
       <code>> Outer quote
-       >> Nested quote</code>
+>> Nested quote</code>
 
       <p><strong>Nested lists</strong></p>
 
       <p>Indent with 2 spaces for nesting. Works with both ordered and unordered lists:</p>
 
       <code>- Top level
-              - Nested item
-                - Even deeper
-            1. First
-              1. Sub-item</code>
+- Nested item
+  - Even deeper
+1. First
+  1. Sub-item</code>
     </section>
 
     <section id="frontmatter" class="main-section">
@@ -157,17 +157,17 @@ const greet = (name) =&gt; {
       <p>Every post starts with a frontmatter block - a chunk of metadata between <span class="inline-code">---</span> fences at the top of your markdown file.</p>
 
       <code>---
-        title: My Cool Post
-        date: 2025-01-15
-        description: A short blurb about this post.
-        author: Your Name
-        categories: Technology, Tutorial
-        keywords: python, static site, blog
-        image: my-cover.jpg
-        toc: true
-        ---
+title: My Cool Post
+date: 2025-01-15
+description: A short blurb about this post.
+author: Your Name
+categories: Technology, Tutorial
+keywords: python, static site, blog
+image: my-cover.jpg
+toc: true
+---
 
-        Your content starts here...</code>
+Your content starts here...</code>
 
       <p><strong>Required fields</strong></p>
 
@@ -192,7 +192,7 @@ const greet = (name) =&gt; {
       <p>Prefix your filename with an underscore and it gets skipped during build. Simple as that.</p>
 
       <code>posts/_my-draft-post.md   ← skipped
-        posts/my-published-post.md  ← built</code>
+posts/my-published-post.md  ← built</code>
     </section>
 
     <section id="configuration" class="main-section">
@@ -201,17 +201,17 @@ const greet = (name) =&gt; {
       <p>Everything lives in <span class="inline-code">config.json</span> at the project root. Here's the full picture:</p>
 
       <code>{
-        "site_title": "My Blog",
-        "site_url": "https://example.com",
-        "site_description": "A minimal blog about things that matter.",
-        "author": "Your Name",
-        "footer_text": "Built with Tailoza",
-        "theme": "dark",
-        "posts_per_page": 20,
-        "timezone": "+0000",
-        "post_url_prefix": "/",
-        "rss_full_content": true
-        }</code>
+"site_title": "My Blog",
+"site_url": "https://example.com",
+"site_description": "A minimal blog about things that matter.",
+"author": "Your Name",
+"footer_text": "Built with Tailoza",
+"theme": "dark",
+"posts_per_page": 20,
+"timezone": "+0000",
+"post_url_prefix": "/",
+"rss_full_content": true
+}</code>
 
       <p><strong>Required</strong></p>
 
@@ -240,24 +240,24 @@ const greet = (name) =&gt; {
       <p>Here's how the repo is laid out. The important bit: the <span class="inline-code">tailoza/</span> folder is the engine, everything else is yours.</p>
 
       <code>tailoza/
-          ├── build.py              # Build script (run this)
-          ├── serve.py              # Dev server script (or this)
-          ├── config.json           # Your configuration
-          │
-          ├── tailoza/              # Core engine (don't touch unless contributing)
-          │   ├── builder.py        # Build orchestration
-          │   ├── parser.py         # Markdown → HTML
-          │   ├── templates.py      # HTML templates
-          │   ├── rss_generator.py  # RSS feed
-          │   ├── sitemap_generator.py
-          │   ├── categorize.py     # Auto-categorization
-          │   ├── utils.py          # Shared utilities
-          │   └── assets/           # CSS, JS (prism, search, etc.)
-          │
-          ├── posts/                # Your markdown files go here
-          ├── images/               # Your images go here
-          ├── assets/               # Your favicon goes here
-          └── output/               # Generated site (don't edit)</code>
+├── build.py              # Build script (run this)
+├── serve.py              # Dev server script (or this)
+├── config.json           # Your configuration
+│
+├── tailoza/              # Core engine (don't touch unless contributing)
+│   ├── builder.py        # Build orchestration
+│   ├── parser.py         # Markdown → HTML
+│   ├── templates.py      # HTML templates
+│   ├── rss_generator.py  # RSS feed
+│   ├── sitemap_generator.py
+│   ├── categorize.py     # Auto-categorization
+│   ├── utils.py          # Shared utilities
+│   └── assets/           # CSS, JS (prism, search, etc.)
+│
+├── posts/                # Your markdown files go here
+├── images/               # Your images go here
+├── assets/               # Your favicon goes here
+└── output/               # Generated site (don't edit)</code>
 
       <p><strong>Updating Tailoza</strong></p>
 
@@ -330,12 +330,11 @@ const greet = (name) =&gt; {
       <p>Create a <span class="inline-code">category_rules.json</span> at the project root to override:</p>
 
       <code>{
-        "Recipes": ["cook", "bake", "ingredient", "recipe"],
-        "Travel": ["trip", "destination", "flight", "hotel"]
+"Recipes": ["cook", "bake", "ingredient", "recipe"],
+"Travel": ["trip", "destination", "flight", "hotel"]
 }</code>
     </section>
 
-    <!-- CONTRIBUTING -->
     <section id="contributing" class="main-section">
       <header>Contributing</header>
 
@@ -344,13 +343,13 @@ const greet = (name) =&gt; {
       <p><strong>Running the tests</strong></p>
 
       <code># Run all tests
-        python -m unittest tests/test_templates.py
+python -m unittest tests/test_templates.
 
-        # Run a specific test class
-        python -m unittest tests.test_templates.TestGeneratePaginationHtml
+# Run a specific test class
+python -m unittest tests.test_templates.TestGeneratePaginationHt
 
-        # Run a specific test method
-        python -m unittest tests.test_templates.TestGeneratePaginationHtml.test_single_page_returns_empty</code>
+# Run a specific test method
+python -m unittest tests.test_templates.TestGeneratePaginationHtml.test_single_page_returns_empty</code>
 
       <p>Tests currently cover the pagination logic in <span class="inline-code">templates.py</span> - URL building, page links, nav buttons, ellipsis handling, edge cases.</p>
 
@@ -382,15 +381,15 @@ const greet = (name) =&gt; {
       <p><strong>Output structure</strong></p>
 
       <code>output/
-        ├── index.html            # Homepage
-        ├── page/2/index.html     # Paginated pages
-        ├── [slug]/index.html     # Individual posts
-        ├── categories/[cat]/     # Category pages
-        ├── rss.xml               # RSS feed
-        ├── sitemap.xml           # For search engines
-        ├── search-index.json     # Client-side search data
-        ├── 404.html              # Custom error page
-        └── assets/               # CSS, JS</code>
+├── index.html            # Homepage
+├── page/2/index.html     # Paginated pages
+├── [slug]/index.html     # Individual posts
+├── categories/[cat]/     # Category pages
+├── rss.xml               # RSS feed
+├── sitemap.xml           # For search engines
+├── search-index.json     # Client-side search data
+├── 404.html              # Custom error page
+└── assets/               # CSS, JS</code>
     </section>
 
     <section id="core_modules" class="main-section">
